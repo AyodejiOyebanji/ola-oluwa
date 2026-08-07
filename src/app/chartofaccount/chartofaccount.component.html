@@ -1,0 +1,154 @@
+
+
+<div class="container">
+    <div class="row g-4">
+        <!-- All product Start -->
+        <div
+          class="container-fluid pt-4 px-4"
+        
+        >
+          <div class="smato-page-card">
+            <div class="smato-page-header">
+              <h1 class="smato-page-title">Chart Of Account</h1>
+            </div>
+            <input
+              type="text"
+              class="form-control m-2 ms-auto"
+              style="width: 80%"
+              placeholder="Search "
+              (input)="search()"
+              [(ngModel)]="searchQuery"
+            
+              
+            />
+            <div class="table-responsive mt-3">
+              <table
+                class="smato-table"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">S/N</th>
+                    <th scope="col">Customized Account Number</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    
+                    <th scope="col">Action</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container
+                    *ngIf="filteredAccounts?.length; else noProducts"
+                  >
+                    <tr *ngFor="let account of filteredAccounts ; let i = index">
+                        <td>{{ i+1 }}</td>
+                      <td>{{ account.acct_no }}</td>
+                      <td>{{ account.title}}</td>
+                      <td>{{ account.description}}</td> 
+                      <!-- <td>
+                        <a
+                          class="btn btn-sm btn-primary w-100"
+                          (click)="editItem(i)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdropEdit"
+                          >Edit</a
+                        >
+                      </td> -->
+                      <td>
+                        <a
+                          class="btn btn-sm btn-danger w-100"
+                          (click)="deleteItem(i)"
+                          >Delete</a
+                        >
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                  <ng-template #noProducts>
+                    <tr>
+                      <td colspan="7" class="table-empty">No Account found.</td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+
+<!-- Add Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content smato-modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="staticBackdropLabel">Add Account</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <select class="form-select "  [(ngModel)]="selectedValue" (change)="onSelectionChange($event)">
+            <option selected disabled  [value]="selectedValue" >{{  selectedValue}}</option>
+            <option  *ngFor="let account_type of act_type" [value]="account_type.label"> {{account_type.label}} </option>
+       
+        </select>
+
+      
+        <input
+          type="Number"
+          placeholder="Customized Account Number"
+          class="form-control smato-search mt-2"
+          [(ngModel)]="acct_no"
+        />
+        <input
+          type="text"
+          placeholder="Title"
+          class="form-control smato-search mt-2"
+          [(ngModel)]="title"
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          class="form-control smato-search mt-2"
+          [(ngModel)]="description"
+        /> 
+        
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="addBank()"
+          data-bs-dismiss="modal"
+          [disabled]="acct_no == '' || description== '' || title == ''"
+        >
+          Add Account
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<button
+  class="circle-btn btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
+  +
+</button>

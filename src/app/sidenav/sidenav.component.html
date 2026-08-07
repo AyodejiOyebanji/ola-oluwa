@@ -1,0 +1,112 @@
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="sidebar" [class.collapsed]="isCollapsed" [class.mobile-open]="mobileOpen">
+
+  <!-- Brand -->
+  <div class="sidebar-brand">
+    <div class="brand-logo">S</div>
+    <div class="brand-text">
+      <span class="brand-name">{{ companySettings.shortName }}</span>
+      <span class="brand-sub">{{ companySettings.tagline }}</span>
+    </div>
+    <button class="pin-btn" (click)="toggleCollapse()"
+            [title]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
+      <span class="material-symbols-sharp">{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</span>
+    </button>
+  </div>
+
+  <!-- User -->
+  <div class="sidebar-user" *ngIf="currentUserDetails">
+    <div class="user-avatar">
+      {{ currentUserDetails?.fname?.charAt(0)?.toUpperCase() }}{{ currentUserDetails?.lname?.charAt(0)?.toUpperCase() }}
+    </div>
+    <div class="user-meta">
+      <span class="user-name">{{ currentUserDetails?.fname }} {{ currentUserDetails?.lname }}</span>
+      <span class="user-role">{{ currentUserDetails?.role }}</span>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="sidebar-nav">
+
+    <div class="nav-group">
+      <p class="nav-group-label">Main</p>
+      <a routerLink="/dashboard"   routerLinkActive="active" class="nav-item" title="Dashboard">
+        <span class="nav-icon"><span class="material-symbols-sharp">dashboard</span></span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a routerLink="/receipt"     routerLinkActive="active" class="nav-item" title="Receipt">
+        <span class="nav-icon"><span class="material-symbols-sharp">receipt</span></span>
+        <span class="nav-label">Receipt</span>
+      </a>
+      <a routerLink="/allreceipt"  routerLinkActive="active" class="nav-item" title="All Receipts">
+        <span class="nav-icon"><span class="material-symbols-sharp">receipt_long</span></span>
+        <span class="nav-label">All Receipts</span>
+      </a>
+      <a routerLink="/receivables" routerLinkActive="active" class="nav-item" title="Receivables">
+        <span class="nav-icon"><span class="material-symbols-sharp">call_received</span></span>
+        <span class="nav-label">Receivables</span>
+      </a>
+      <a routerLink="/wallets"     routerLinkActive="active" class="nav-item" title="Wallet">
+        <span class="nav-icon"><span class="material-symbols-sharp">wallet</span></span>
+        <span class="nav-label">Wallet</span>
+      </a>
+    </div>
+
+    <div class="nav-group" *ngIf="currentUserDetails?.role === 'Admin'">
+      <p class="nav-group-label">Management</p>
+      <a routerLink="/products"      routerLinkActive="active" class="nav-item" title="Products">
+        <span class="nav-icon"><span class="material-symbols-sharp">inventory_2</span></span>
+        <span class="nav-label">Products</span>
+      </a>
+      <a routerLink="/inventory"     routerLinkActive="active" class="nav-item" title="Inventory">
+        <span class="nav-icon"><span class="material-symbols-sharp">warehouse</span></span>
+        <span class="nav-label">Inventory</span>
+      </a>
+      <a routerLink="/history-setup" routerLinkActive="active" class="nav-item" title="History">
+        <span class="nav-icon"><span class="material-symbols-sharp">history</span></span>
+        <span class="nav-label">History</span>
+      </a>
+      <a routerLink="/payroll-setup" routerLinkActive="active" class="nav-item" title="Payroll">
+        <span class="nav-icon"><span class="material-symbols-sharp">payments</span></span>
+        <span class="nav-label">Payroll</span>
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <p class="nav-group-label">Finance</p>
+      <a routerLink="/voucher-set-up" routerLinkActive="active" class="nav-item" title="Vouchers">
+        <span class="nav-icon"><span class="material-symbols-sharp">description</span></span>
+        <span class="nav-label">Vouchers</span>
+      </a>
+      <a routerLink="/statement"      routerLinkActive="active" class="nav-item" title="Statements">
+        <span class="nav-icon"><span class="material-symbols-sharp">account_balance</span></span>
+        <span class="nav-label">Statements</span>
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <p class="nav-group-label">Account</p>
+      <a routerLink="/set-up"   routerLinkActive="active" class="nav-item" title="Set Up">
+        <span class="nav-icon"><span class="material-symbols-sharp">settings</span></span>
+        <span class="nav-label">Set Up</span>
+      </a>
+      <a routerLink="/profile"  routerLinkActive="active" class="nav-item" title="Profile">
+        <span class="nav-icon"><span class="material-symbols-sharp">manage_accounts</span></span>
+        <span class="nav-label">Profile</span>
+      </a>
+    </div>
+
+  </nav>
+
+  <!-- Logout -->
+  <div class="sidebar-footer">
+    <button class="logout-btn" (click)="logOut()" title="Log Out">
+      <span class="nav-icon"><span class="material-symbols-sharp">logout</span></span>
+      <span class="nav-label">Log Out</span>
+    </button>
+  </div>
+
+</aside>
+
+<!-- Mobile backdrop -->
+<div class="sidebar-backdrop" [class.visible]="mobileOpen" (click)="closeMobile()"></div>

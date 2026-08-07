@@ -1,0 +1,53 @@
+<!-- access denied for non admin -->
+<!--   
+  <div
+    class="container-fluid pt-4 px-4"
+    *ngIf="currentUserDetails?.role !== 'Admin'"
+  >
+    <div class="smato-page-card">
+      <div
+        class="smato-page-header"
+      ></div>
+      <div class="table-responsive">
+        <img src="../../assets/access denied.jpg" alt="" srcset="" />
+        <h1>You do not have permission to access this page.</h1>
+      </div>
+    </div>
+  </div> -->
+
+  <mat-stepper #stepper   style="width:100% !important;background-color: transparent !important;">
+    <mat-step>
+      <ng-template matStepLabel>Profile</ng-template>
+      
+        <app-profile></app-profile>
+
+   
+    </mat-step>
+    <mat-step *ngIf="currentUserDetails?.role == 'Admin'">
+      <ng-template matStepLabel>Company Settings</ng-template>
+      <app-company-settings></app-company-settings>
+    </mat-step>
+    <mat-step   *ngIf="currentUserDetails?.role == 'Admin'">
+      
+        <ng-template matStepLabel>Chart of Account</ng-template>
+        
+        <app-chartofaccount></app-chartofaccount>
+    
+       
+    </mat-step>
+    <mat-step   *ngIf="currentUserDetails?.role == 'Admin'">
+      
+      <ng-template matStepLabel>Permission</ng-template>
+      <app-permission></app-permission>
+    
+  </mat-step>
+   <mat-step *ngIf="currentUserDetails?.role == 'Admin'" >
+    <ng-template matStepLabel>Account Statement</ng-template>
+    <app-statement></app-statement>
+  
+  </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Add Receipt Payment</ng-template>
+     <app-addreceiptpayment></app-addreceiptpayment>
+    </mat-step> 
+  </mat-stepper>

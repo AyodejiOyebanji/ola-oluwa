@@ -1,0 +1,33 @@
+
+<!-- access denied for non admin -->
+
+  <div
+    class="container-fluid pt-4 px-4"
+    *ngIf="currentUserDetails?.role !== 'Admin'"
+  >
+    <div class="smato-page-card">
+      <div
+        class="smato-page-header"
+      ></div>
+      <div class="table-responsive">
+        <img src="../../assets/access denied.jpg" alt="" srcset="" />
+        <h1>You do not have permission to access this page.</h1>
+      </div>
+    </div>
+  </div> 
+
+  <mat-stepper #stepper  *ngIf="currentUserDetails?.role == 'Admin'" style="width:100% !important;background-color: transparent !important;">
+   
+    
+    <mat-step >
+      
+      <ng-template matStepLabel>New Payroll</ng-template>
+      <app-payroll></app-payroll>
+    
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Payrolls</ng-template>
+    <app-payrolls></app-payrolls>
+  </mat-step>
+ 
+  </mat-stepper>

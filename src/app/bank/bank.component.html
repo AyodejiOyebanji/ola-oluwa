@@ -1,0 +1,127 @@
+
+
+<div class="container">
+    <div class="row g-4">
+        <!-- All product Start -->
+        <div
+          class="container-fluid pt-4 px-4"
+        
+        >
+          <div class="smato-page-card">
+            <div class="smato-page-header">
+              <h1 class="smato-page-title">Banks</h1>
+              <input
+                type="text"
+                [(ngModel)]="searchQuery"
+                placeholder="Search..."
+                class="form-control smato-search"
+                (input)="search()"
+              />
+            </div>
+            <div class="table-responsive mt-3">
+              <table
+                class="smato-table"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">S/N</th>
+                    <th scope="col">Bank</th>
+                    <th scope="col">Bank Name</th>
+                    <th scope="col">Account Number</th>
+                    
+                    <th scope="col">Action</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngIf="filteredBanklist?.length; else noProducts">
+                    <tr *ngFor="let bank of filteredBanklist; let i = index">
+                        <td>{{ i+1 }}</td>
+                      <td>{{ bank.bank_name }}</td>
+                      <td>{{ bank.acc_name }}</td>
+                      <td>{{ bank.acc_no }}</td>
+                      
+
+                      
+                    </tr>
+                  </ng-container>
+
+                  <ng-template #noProducts>
+                    <tr>
+                      <td colspan="7" class="table-empty">No products found.</td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+
+<!-- Add Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content smato-modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="staticBackdropLabel">Add Product</h2>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="text"
+          placeholder="Bank Name"
+          class="form-control mt-2"
+          [(ngModel)]="bank_name"
+        />
+        <input
+          type="text"
+          placeholder="Account Name"
+          class="form-control mt-2"
+          [(ngModel)]="acc_name"
+        />
+        <input
+          type="number"
+          placeholder="Account Number"
+          class="form-control mt-2"
+          [(ngModel)]="acc_no"
+        />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="addBank()"
+          data-bs-dismiss="modal"
+          [disabled]="acc_no == '' || acc_name == '' || bank_name == ''"
+        >
+          Add Bank
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<button
+  class="circle-btn btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
+  +
+</button>

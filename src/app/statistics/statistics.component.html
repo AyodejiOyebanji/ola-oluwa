@@ -1,0 +1,81 @@
+
+
+    <div class="container-fluid pt-4 px-4">
+      <div class="row g-4">
+        <!-- All product Start -->
+        <div class="container-fluid pt-4 px-4">
+          <div class="smato-page-card">
+            <div class="smato-page-header">
+              <h1 class="smato-page-title"> Sales</h1>
+              
+            </div>
+            <!-- <div class="mb-3 d-flex ">
+             
+              <input type="date" class="form-control" id="filterDate" [(ngModel)]="filterDate" />
+              <button class="btn btn-primary" (click)="applyFilter()">Filter</button>
+            </div> -->
+            <div class="mb-3 d-flex gap-2">
+              <input
+                type="date"
+                class="form-control"
+                id="startDate"
+                [(ngModel)]="startDate"
+                placeholder="Start Date"
+              />
+              <input
+                type="date"
+                class="form-control"
+                id="endDate"
+                [(ngModel)]="endDate"
+                placeholder="End Date"
+              />
+              <button class="btn btn-primary" [disabled]="   startDate=='' &&  endDate==''" (click)="applyFilter()">Filter</button>
+            </div>
+            
+
+            <div class="table-responsive">
+              <table
+                class="smato-table"
+              >
+              
+                <thead>
+                  <tr>
+
+                    <th scope="col">S/N</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product Sold</th>
+                    <th scope="col">Quantity </th>
+
+
+                  </tr>
+                  <tbody *ngIf="!isNoDataAvailable">
+                    <tr *ngFor="let stat of todayStats; let i = index">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ stat.transactionDate | date:'medium' }}</td>
+                      <td>{{ stat.productName }}</td>
+                      <td>{{ stat.productQuantity }}</td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="isNoDataAvailable">
+                    <tr>
+                      <td colspan="4" class="table-empty">No sales data available for the selected date.</td>
+                    </tr>
+                  </tbody>
+                  
+
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <button class="circle-btn btn btn-primary" (click)="download()">
+        <span class="material-symbols-sharp">
+          download
+        </span>
+      </button>
+    </div>
+

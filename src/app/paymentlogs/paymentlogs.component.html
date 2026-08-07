@@ -1,0 +1,87 @@
+<!-- access denied for non admin -->
+
+  <div
+        class="container-fluid pt-4 px-4"
+        *ngIf="currentUserDetails?.role !== 'Admin'"
+      >
+        <div class="smato-page-card">
+          <div
+            class="smato-page-header"
+          ></div>
+          <div class="table-responsive">
+            <img src="../../assets/access denied.jpg" alt="" srcset="" />
+            <h1>You do not have permission to access this page.</h1>
+          </div>
+        </div>
+      </div>
+
+  <div class="container-fluid pt-4 px-4" *ngIf="currentUserDetails?.role == 'Admin'">
+    <div class="row g-4">
+      <!-- All product Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="smato-page-card">
+          <div class="smato-page-header">
+            <h1 class="smato-page-title">Payment Logs</h1>
+            <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            placeholder="Search..."
+            class="form-control smato-search"
+            (input)="search()"
+          />
+          
+          </div>
+
+
+          <h2 style="font-weight: 700" class="text-muted text-end">
+           CREDIT: ₦{{ summary?.creditSummary }}:00 | DEBIT: ₦{{ summary?.debitSummary }}:00
+          </h2>
+          <div class="table-responsive mt-3">
+            <table
+              class="smato-table"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">S/N</th>
+                  <th scope="col">Transaction Type</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">amount</th>
+                  <th scope="col">Account Used</th> 
+                  <th scope="col">Date</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                 <ng-container *ngIf="filteredPaymentlogs?.length; else noProducts">
+                  <tr *ngFor="let wallet of filteredPaymentlogs; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ wallet.transaction_type }}</td>
+                    <td>{{ getDescriptionWord(wallet.description) }}</td>
+
+
+
+                   
+                    <td>#{{ wallet.amount}}:00</td>
+
+                    <td>
+                      {{ wallet?.accountData?.title? wallet?.accountData?.title :'None' }}
+                    </td>
+                    <td>{{  formatDate(wallet.createdAt) }}</td>
+
+                   
+                  </tr>
+                </ng-container> 
+
+                <ng-template #noProducts>
+                  <tr>
+                    <td colspan="7" class="table-empty">No Wallet Available.</td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>

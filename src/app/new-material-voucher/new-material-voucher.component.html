@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="row g-4">
+      <!-- All product Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="smato-page-card">
+          <div class="smato-page-header">
+            <h1 class="smato-page-title">New Raw Material Voucher </h1>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-xl-6">
+              <mat-form-field class="w-100"> 
+                  <mat-label>Cost Center</mat-label>
+                  <mat-select  [(ngModel)]="selectedCostCenter" name="costCenter">
+                   
+                      <mat-option  *ngFor="let costcenter of costcenters" [value]="costcenter._id">{{costcenter.label}}</mat-option>
+                    
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-5">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Staff</mat-label>
+                <input matInput  disabled [value]="this.currentUserDetails?.fname + ' ' + this.currentUserDetails?.lname"/>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Date</mat-label>
+                <input matInput  type="date"  [(ngModel)]="date"  />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Voucher Summary</mat-label>
+                <textarea matInput [(ngModel)]="vouchersummary" required></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Payment Details</mat-label>
+                <textarea matInput [(ngModel)]="paymentdetails" required  placeholder="Where should the payment be sent to?"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+             <b style="font-size: 20px;">Total: </b>  <span style="font-size: 20px;">  ₦{{this.totalPrice}}.00</span>
+  
+            
+             
+            </div>
+            <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+             
+              
+              <b style="font-size: 20px;">Amount in Words: </b>  <span style="font-size: 20px;"> {{amountToWords | transformfirstletter}} NAIRA ONLY
+   
+              </span>
+              
+             </div>
+  
+             <div class="row mt-5">
+              <div class="col-10 col-md-11">
+                <div class="row">
+                  <div class="col-1"></div>
+                  <div class="col-2">Voucher Item</div>
+                  <div class="col-3">Description</div>
+                  <div class="col-2">Quantity</div>
+                  <div class="col-2">Unit Price</div>
+                  <div class="col-2">Total Price</div>
+                </div>
+                <div class="row mb-1 animated fadeInUp" *ngFor="let voucherDetails of voucherDetailsArray; let i = index">
+                  <div class="col-2 col-md-1 my-2  " style="cursor: pointer">
+                    <button class="text-danger  btn btn-light" (click)="deleteItem(i)" *ngIf="voucherDetailsArray.length != 1"><span class="material-symbols-sharp">
+                      close
+                      </span></button>
+                  </div>
+                  <div class="col-5 col-md-2 p-1">
+                    <input type="text" name="voucher_item" placeholder="Item" class="form-control w-100" [(ngModel)]="voucherDetails.item" maxlength="500"/>
+                  </div>
+                  <div class="col-5 col-md-3 p-1">
+                    <input type="text" name="voucher_item" placeholder="Description" class="form-control w-100" [(ngModel)]="voucherDetails.description" maxlength="1000"/>
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <input type="number" name="quantity" placeholder="Quantity" class="form-control w-100" [(ngModel)]="voucherDetails.quantity" (ngModelChange)="calculateTotalPrice()"/>
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <input type="number" name="unit_price" placeholder="Unit Price" class="form-control w-100" [(ngModel)]="voucherDetails.unit_price" (ngModelChange)="calculateTotalPrice()" />
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <input type="number" name="price" placeholder="Total Price" class="form-control w-100" [(ngModel)]="voucherDetails.price" disabled />
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 col-md-1 my-auto">
+                <button mat-mini-fab color="primary" title="Add Voucher Item" (click)="addItem()">
+                  <span class="material-symbols-sharp mt-1">
+                      add
+                      </span>
+                </button>
+              </div>
+            </div> 
+  
+            
+            
+          </div>
+      </div>
+      <div class="d-flex justify-content-end mt-4">
+          <button class="btn btn-primary" (click)="createVoucher()" [disabled]="selectedCostCenter=='' || date=='' || vouchersummary==''|| paymentdetails==''">Create Voucher</button>
+  
+      </div>
+      </div>
+    </div>
+  </div>
+  

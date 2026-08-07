@@ -1,0 +1,193 @@
+<!-- access denied for non admin -->
+
+  <!-- <div
+      class="container-fluid pt-4 px-4"
+    
+    >
+      <div class="smato-page-card">
+        <div
+          class="smato-page-header"
+        ></div>
+        <div class="table-responsive">
+          <img src="../../assets/access denied.jpg" alt="" srcset="" />
+          <h1>You do not have permission to access this page.</h1>
+        </div>
+      </div>
+    </div> -->
+
+  <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+      <!-- All product Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="smato-page-card">
+          <div class="smato-page-header">
+            <h1 class="smato-page-title">Wallet (Deduction)</h1>
+           
+          </div>
+           <div class="row">
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Name Of Customer</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="WalletObj?.customername"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Outstanding Amount(Amount owned to customers)</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="'#' + WalletObj?.outstandingAmount + ' :' + '00'"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Remark</mat-label>
+                <input matInput disabled [value]="WalletObj?.remark" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Date</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="WalletObj?.createdAt | date"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Balance</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="
+                    '#' + WalletObj?.BalanceAmount + ' :' + '00'
+                  "
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Amount Paid</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="'#' + WalletObj?.amountPaid + ' :' + '00'"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-12">
+              <textarea name="" id="" class="form-control" cols="30" rows="3" disabled [value]="WalletObj?.short_note"></textarea>
+            </div>
+          </div> 
+          <div class="table-responsive mt-3">
+             <table
+              class="smato-table"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">S/N</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Amount Paid</th>
+                  <th scope="col">Collected By who</th>
+              
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngIf="WalletObj?.history?.length; else noHistory"
+                >
+                  <tr *ngFor="let history of WalletObj?.history ; let i = index">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ history.date | date  }}</td>
+                    <td># {{ history.amount }}:00</td>
+                    <td>{{ history.staff
+                    }}</td>
+                    
+                   
+
+                   
+                    
+                  </tr>
+                </ng-container>
+
+                <ng-template #noHistory>
+                  <tr>
+                    <td colspan="7" class="table-empty">No payment history found</td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table> 
+          </div>
+        </div>
+        <button
+          class="circle-btn btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+          [disabled]="WalletObj?.remark ==='Paid'"
+       
+        >
+          +
+        </button>
+        <!-- Add Modal -->
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content smato-modal">
+              <div class="modal-header">
+                <h2 class="modal-title" id="staticBackdropLabel">
+                  Add Deduction
+                </h2>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  class="form-control mt-2"
+                  [(ngModel)]="amount"
+                />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="addDeduction()"
+                  data-bs-dismiss="modal"
+                  [disabled]="amount == ''"
+                >
+                  Add Deduction
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,306 @@
+/* ── Page ───────────────────────────────── */
+.receipt-page {
+  max-width: 100%;
+}
+
+.receipt-header {
+  margin-bottom: 1rem;
+}
+
+.receipt-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #191C24;
+  margin: 0 0 0.15rem;
+}
+
+.receipt-subtitle {
+  font-size: 0.82rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* ── Cards ──────────────────────────────── */
+.receipt-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.receipt-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid #f3f4f6;
+  background: #fafbfc;
+}
+
+.card-icon {
+  font-size: 1.15rem;
+  color: #009CFF;
+}
+
+.receipt-card-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #191C24;
+  margin: 0;
+  flex: 1;
+}
+
+.item-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #009CFF;
+  background: rgba(0, 156, 255, 0.1);
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+}
+
+.receipt-card-body {
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+/* ── Price chip ─────────────────────────── */
+.price-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(25, 135, 84, 0.1);
+  color: #198754;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.price-chip .material-symbols-sharp {
+  font-size: 1rem;
+}
+
+/* ── Buttons ────────────────────────────── */
+.btn-add,
+.btn-process {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  padding: 0.55rem 1rem !important;
+  margin-top: 0.25rem;
+}
+
+.btn-add .material-symbols-sharp,
+.btn-process .material-symbols-sharp {
+  font-size: 1.1rem;
+}
+
+.btn-process {
+  margin-top: 0.75rem;
+}
+
+/* ── Table ──────────────────────────────── */
+.receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.receipt-table thead tr {
+  background: #f9fafb;
+}
+
+.receipt-table th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #9ca3af;
+  border-bottom: 1px solid #f3f4f6;
+  white-space: nowrap;
+}
+
+.receipt-table td {
+  padding: 0.7rem 1rem;
+  color: #374151;
+  border-bottom: 1px solid #f9fafb;
+  vertical-align: middle;
+}
+
+.receipt-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.receipt-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.col-name {
+  font-weight: 500;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(220, 53, 69, 0.08);
+  color: #dc3545;
+  cursor: pointer;
+  transition: background 0.15s;
+  padding: 0;
+}
+
+.btn-delete:hover {
+  background: rgba(220, 53, 69, 0.18);
+}
+
+.btn-delete .material-symbols-sharp {
+  font-size: 1.1rem;
+}
+
+/* ── Empty cart ─────────────────────────── */
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.empty-cart .material-symbols-sharp {
+  font-size: 2.5rem;
+  opacity: 0.4;
+  margin-bottom: 0.5rem;
+}
+
+.empty-cart p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 0.25rem;
+}
+
+.empty-cart span {
+  font-size: 0.78rem;
+}
+
+/* ── Footer / total ─────────────────────── */
+.receipt-footer {
+  padding: 0.85rem 1.1rem 1.1rem;
+  border-top: 1px solid #f3f4f6;
+}
+
+.total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  background: #f9fafb;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.total-row strong {
+  font-size: 1.15rem;
+  color: #191C24;
+}
+
+/* ── Material overrides ─────────────────── */
+.receipt-page ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #e5e7eb;
+}
+
+.receipt-page ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #009CFF;
+}
+
+.receipt-page ::ng-deep .mat-form-field {
+  font-size: 0.875rem;
+}
+
+/* ── Searchable select panel ────────────── */
+
+/* Sticky search box at top of dropdown panel */
+.select-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem 0.4rem;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  border-bottom: 1.5px solid #e9ecef;
+}
+
+.select-search-icon {
+  font-size: 1.05rem;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.select-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.85rem;
+  color: #111827;
+  background: transparent;
+  font-family: inherit;
+  padding: 0;
+}
+
+.select-search-input::placeholder {
+  color: #c4c9d4;
+  font-size: 0.82rem;
+}
+
+/* Make the mat-select panel scrollable with enough room */
+::ng-deep .mat-select-panel {
+  max-height: 280px !important;
+}
+
+/* Highlight matching text feel — options look clean */
+::ng-deep .mat-option {
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 575px) {
+  .receipt-title {
+    font-size: 1.15rem;
+  }
+
+  .receipt-card-body {
+    padding: 0.85rem;
+  }
+
+  .receipt-table th,
+  .receipt-table td {
+    padding: 0.55rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .col-name {
+    max-width: 90px;
+  }
+}

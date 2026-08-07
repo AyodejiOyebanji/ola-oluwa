@@ -1,0 +1,58 @@
+<div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            
+            
+           
+
+
+
+    
+
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="smato-page-card">
+            <div class="smato-page-header">
+                <h1 class="smato-page-title">All Sales</h1>
+                <input
+                type="text"
+                [(ngModel)]="searchQuery"
+                placeholder="Search..."
+                class="form-control smato-search"
+                (input)="search()"
+              />
+            </div>
+            <div class="table-responsive">
+                <table class="smato-table">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Date</th>
+                            <th scope="col">Invoice id</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Print</th>
+                            <th scope="col">Delete</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sale of allReceipt; let i = index">
+                            <td>{{ sale.date | date:'medium' }}</td>
+                            <td>{{ sale.receiptId }}</td>
+                            <td>{{ sale.nameOfCustomer }}</td>
+                            <td>₦{{ sale.totalAmount }}</td>
+                            <!-- Use index directly — no reversal needed, server returns sorted data -->
+                            <td><a class="btn btn-sm btn-primary w-100" (click)="print(i)">Print</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="smato-pagination">
+                <button (click)="fetchPreviousPage()" [disabled]="currentPage <= 1" class="btn btn-primary m-1">
+                  Previous
+                </button>
+                <button (click)="fetchNextPage()" [disabled]="!hasNextPage" class="btn btn-primary m-1">
+                  Next
+                </button>
+              </div>
+        </div>

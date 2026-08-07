@@ -1,0 +1,33 @@
+.history {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* max-width: 500px; */
+  height: auto;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333333;
+  transition: background-color 0.3s ease;
+}
+
+.history span {
+  margin-bottom: 10px;
+}
+
+.history .date {
+  font-size: 14px;
+  color: #666666;
+}
+
+.history:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}

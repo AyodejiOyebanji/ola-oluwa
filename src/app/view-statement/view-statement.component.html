@@ -1,0 +1,72 @@
+<!-- access denied for non admin -->
+
+<!-- <div
+      class="container-fluid pt-4 px-4"
+    
+    >
+      <div class="smato-page-card">
+        <div
+          class="smato-page-header"
+        ></div>
+        <div class="table-responsive">
+          <img src="../../assets/access denied.jpg" alt="" srcset="" />
+          <h1>You do not have permission to access this page.</h1>
+        </div>
+      </div>
+    </div> -->
+
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title">{{ accountDetails?.accountName }}</h1>
+          <h1>Credit:₦{{accountDetails?.totalCredit}}:00 | Debit:₦{{accountDetails?.totalDebit}}:00</h1>
+        </div>
+
+        <div class="table-responsive mt-3">
+          <table
+            class="smato-table"
+          >
+            <thead>
+              <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Transaction type</th>
+                <th scope="col">Description</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngIf="accountDetails?.payments?.length; else noHistory"
+              >
+                <tr
+                  *ngFor="
+                    let history of accountDetails?.payments;
+                    let i = index
+                  "
+                >
+                  <td>{{ i + 1 }}</td>
+
+                  <td>{{ history.transaction_type }}</td>
+                  <td>{{ getDescriptionWord(history.description) }}</td>
+
+                  <td>₦{{ history.amount }}:00</td>
+                  <td>{{ history.createdAt | date }}</td>
+                </tr>
+              </ng-container>
+
+              <ng-template #noHistory>
+                <tr>
+                  <td colspan="7" class="table-empty">No payment history found</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

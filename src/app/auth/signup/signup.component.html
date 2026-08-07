@@ -1,0 +1,166 @@
+<div class="signup-wrapper">
+
+  <!-- Left branding panel -->
+  <div class="signup-brand">
+    <div class="brand-content">
+      <div class="brand-logo">
+        <span class="logo-icon">{{ companySettings.shortName?.charAt(0) }}</span>
+      </div>
+      <h1 class="brand-name">{{ companySettings.companyName }}</h1>
+      <p class="brand-tagline">{{ companySettings.tagline }}</p>
+      <div class="brand-divider"></div>
+      <p class="brand-desc">
+        Create a new staff account. All fields marked * are required.
+      </p>
+    </div>
+    <div class="deco-circle deco-1"></div>
+    <div class="deco-circle deco-2"></div>
+    <div class="deco-circle deco-3"></div>
+  </div>
+
+  <!-- Right form panel -->
+  <div class="signup-form-panel">
+    <div class="form-card">
+
+      <div class="form-header">
+        <h2>Create Account</h2>
+        <p>Fill in the details below to register a new staff member</p>
+      </div>
+
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)" autocomplete="off">
+
+        <!-- Name row -->
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">First Name *</label>
+            <div class="field-wrap" [class.field-error]="f['fname'].invalid && f['fname'].touched">
+              <input type="text" class="field-input" formControlName="fname" placeholder="First name" />
+            </div>
+            <span class="error-msg" *ngIf="f['fname'].invalid && f['fname'].touched">
+              First name is required (min 2 chars)
+            </span>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Last Name *</label>
+            <div class="field-wrap" [class.field-error]="f['lname'].invalid && f['lname'].touched">
+              <input type="text" class="field-input" formControlName="lname" placeholder="Last name" />
+            </div>
+            <span class="error-msg" *ngIf="f['lname'].invalid && f['lname'].touched">
+              Last name is required (min 2 chars)
+            </span>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="field-group">
+          <label class="field-label">Email Address *</label>
+          <div class="field-wrap" [class.field-error]="f['email'].invalid && f['email'].touched">
+            <span class="field-icon"><span class="material-symbols-sharp">mail</span></span>
+            <input type="email" class="field-input" formControlName="email" placeholder="staff@company.com" autocomplete="email" />
+          </div>
+          <span class="error-msg" *ngIf="f['email'].invalid && f['email'].touched">
+            Please enter a valid email address
+          </span>
+        </div>
+
+        <!-- Phone -->
+        <div class="field-group">
+          <label class="field-label">Phone Number *</label>
+          <div class="field-wrap" [class.field-error]="f['phone'].invalid && f['phone'].touched">
+            <span class="field-icon"><span class="material-symbols-sharp">phone</span></span>
+            <input type="tel" class="field-input" formControlName="phone" placeholder="080XXXXXXXX" />
+          </div>
+          <span class="error-msg" *ngIf="f['phone'].invalid && f['phone'].touched">
+            Phone number is required (min 10 digits)
+          </span>
+        </div>
+
+        <!-- Role -->
+        <div class="field-group">
+          <label class="field-label">Role *</label>
+          <div class="field-wrap" [class.field-error]="f['role'].invalid && f['role'].touched">
+            <span class="field-icon"><span class="material-symbols-sharp">badge</span></span>
+            <select class="field-input field-select" formControlName="role">
+              <option value="" disabled>Select role</option>
+              <option value="Admin">Admin</option>
+              <option value="Cashier">Cashier</option>
+              <option value="Staff">Staff</option>
+            </select>
+          </div>
+          <span class="error-msg" *ngIf="f['role'].invalid && f['role'].touched">
+            Role is required
+          </span>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label class="field-label">Password *</label>
+          <div class="field-wrap" [class.field-error]="f['password'].invalid && f['password'].touched">
+            <span class="field-icon"><span class="material-symbols-sharp">lock</span></span>
+            <input [type]="hide ? 'password' : 'text'" class="field-input" formControlName="password"
+              placeholder="Min 8 chars, upper, lower &amp; number" autocomplete="new-password" />
+            <button type="button" class="toggle-pw" (click)="hide = !hide"
+              [attr.aria-label]="hide ? 'Show password' : 'Hide password'">
+              <span class="material-symbols-sharp">{{ hide ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+          <span class="error-msg" *ngIf="f['password'].invalid && f['password'].touched">
+            Password must be at least 8 characters with uppercase, lowercase and a number
+          </span>
+        </div>
+
+        <!-- Bank details (optional) -->
+        <details class="bank-details-section">
+          <summary class="bank-summary">
+            <span class="material-symbols-sharp">account_balance</span>
+            Bank Details <span class="optional-tag">(optional)</span>
+          </summary>
+          <div class="bank-fields">
+            <div class="field-group">
+              <label class="field-label">Bank Name</label>
+              <div class="field-wrap">
+                <input type="text" class="field-input" formControlName="bankname" placeholder="e.g. First Bank" />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field-group">
+                <label class="field-label">Account Number</label>
+                <div class="field-wrap">
+                  <input type="text" class="field-input" formControlName="acct_no" placeholder="10-digit number" />
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Account Name</label>
+                <div class="field-wrap">
+                  <input type="text" class="field-input" formControlName="acct_name" placeholder="Name on account" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Error banner -->
+        <div class="error-banner" *ngIf="errorMessage">
+          <span class="material-symbols-sharp">error</span>
+          {{ errorMessage }}
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-signup" [disabled]="loading || signupForm.invalid">
+          <span *ngIf="!loading">Create Account</span>
+          <span *ngIf="loading" class="spinner-row">
+            <span class="spinner"></span>
+            Creating account…
+          </span>
+        </button>
+
+        <p class="signin-link">
+          Already have an account?
+          <a routerLink="/login">Sign in</a>
+        </p>
+
+      </form>
+    </div>
+  </div>
+
+</div>

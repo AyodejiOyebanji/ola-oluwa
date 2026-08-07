@@ -1,0 +1,204 @@
+<div class="container-fluid pt-4 px-4">
+   
+<div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title"> Payroll</h1>
+         
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-xl-3">
+            <mat-form-field class="example-full-width w-100">
+                <mat-label>Payment Method</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="payrollData?.account?.acct_no + ' '+ payrollData?.account?.title"
+                  disabled
+                 
+                />
+              </mat-form-field>
+          </div>
+          <div class="col-sm-12 col-xl-3">
+            <mat-form-field class="example-full-width w-100">
+              <mat-label>Staff</mat-label>
+              <input
+                matInput
+                disabled
+                [value]=" payrollData?.payroll
+                ?.preparedBy
+                "
+
+               
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm-12 col-xl-3">
+            <mat-form-field class="example-full-width w-100">
+                <mat-label>Month</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]=" payrollData?.payroll
+                  ?. month
+                  "
+                 
+                />
+              </mat-form-field>
+          </div>
+          <div class="col-sm-12 col-xl-3">
+            <mat-form-field class="example-full-width w-100">
+                <mat-label>Date</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]=" payrollData?.payroll
+                  ?. createdAt |date
+                  "
+                 
+                />
+              </mat-form-field>
+          </div>
+       
+
+          <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+            <b style="font-size: 20px">Total: </b>
+            <span style="font-size: 20px"> ₦{{payrollData?.payroll
+                ?.total }}.00</span>
+          </div>
+          <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+            <b style="font-size: 20px">Amount in Words: </b>
+            <span style="font-size: 20px"> {{amountToWords | transformfirstletter }}
+              NAIRA ONLY
+            </span>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-10 col-md-11">
+              <div
+                class="row mb-1 animated fadeInUp"
+                *ngFor="
+                  let payrollDetail of payrollData?.payroll?.payrollItem
+;
+                  let i = index
+                "
+              >
+                <div class="col-2 col-md-1 my-2" style="cursor: pointer">
+              
+                </div>
+                <div class="col-5 col-md-4 p-1">
+                  <label for="">Name</label>
+                  <input
+                    type="text"
+                    name="voucher_item"
+                    placeholder="Name"
+                    class="form-control w-100"
+                    [value]="payrollDetail.name"
+                    maxlength="500"
+                    disabled
+                  />
+                </div>
+                <div class="col-5 col-md-2 p-1">
+                  <label for="">Wages</label>
+                  <input
+                    type="number"
+                    name="voucher_item"
+                    placeholder="Wages"
+                    class="form-control w-100"
+                    [(ngModel)]="payrollDetail.wages"
+                    maxlength="500"
+                    disabled
+                   
+                  />
+                </div>
+                <div class="col-5 col-md-2 p-1">
+                  <label for="">Bonus</label>
+                  <input
+                    type="number"
+                    name="voucher_item"
+                    placeholder="Bonus"
+                    class="form-control w-100"
+                    [(ngModel)]="payrollDetail .bonus"
+                    maxlength="500"
+                    disabled
+                    
+                  />
+                </div>
+                <div class="col-5 col-md-2 p-1">
+                  <label for="">Tax</label>
+                  <input
+                    type="number"
+                    name="voucher_item"
+                    placeholder="Tax"
+                    class="form-control w-100"
+                    [(ngModel)]="payrollDetail .tax"
+                    maxlength="500"
+                    disabled
+                   
+                  />
+                </div>
+                <div class="col-5 col-md-2 p-1 ms-2">
+                  <label for="">No Of Days</label>
+                  <input
+                    type="number"
+                    name="voucher_item"
+                    placeholder="No Of Days"
+                    class="form-control w-100"
+                    [(ngModel)]="payrollDetail .noOfDays"
+                    maxlength="1000"
+                    disabled
+                  />
+                </div>
+                <div class="col-4 col-md-3 p-1">
+                  <label for="">Monthly Deduction</label>
+                  <input
+                    type="number"
+                    name="quantity"
+                    placeholder="Monthly Deduction"
+                    class="form-control w-100"
+                    [(ngModel)]="payrollDetail .monthlyDeduction"
+                    disabled
+                  />
+                </div>
+                <div class="col-4 col-md-3 p-1">
+                  <label for="">Loan</label>
+                  <input
+                    type="number"
+                    name="unit_price"
+                    placeholder="Loan"
+                    class="form-control w-100"
+                    [(ngModel)]="payrollDetail .loan"
+                    disabled
+                  />
+                </div>
+                <div class="col-4 col-md-2 p-1">
+                  <label for="">Total</label>
+                  <input
+                    type="number"
+                    name="total"
+                    placeholder="Total "
+                    class="form-control w-100"
+                    [(ngModel)]="payrollDetail .total"
+                    disabled
+                  />
+                </div> 
+              </div>
+            </div>
+          
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+  
+  </div>
+  <button  [matMenuTriggerFor]="aboveMenu"  class="circle-btn btn btn-primary"> <span class="material-symbols-sharp"> download </span></button>
+<mat-menu #aboveMenu="matMenu" yPosition="above">
+<button mat-menu-item (click)="download('audit')">Audit</button>
+<button mat-menu-item (click)="download('bank')"> Bank</button>
+<button mat-menu-item (click)="download('tax')">Tax</button>
+</mat-menu>

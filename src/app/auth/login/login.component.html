@@ -1,0 +1,114 @@
+<div class="login-wrapper">
+
+  <!-- Left branding panel -->
+  <div class="login-brand">
+    <div class="brand-content">
+      <div class="brand-logo">
+        <span class="logo-icon">{{ companySettings.shortName?.charAt(0) | uppercase }}</span>
+      </div>
+      <h1 class="brand-name">{{ companySettings.companyName }}</h1>
+      <p class="brand-tagline">{{ companySettings.tagline }}</p>
+      <div class="brand-divider"></div>
+      <p class="brand-desc">
+        Manage your production, inventory, payroll and finances — all in one place.
+      </p>
+      <div class="brand-stats">
+        <div class="stat">
+          <span class="stat-value">Fast</span>
+          <span class="stat-label">Real-time data</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">Secure</span>
+          <span class="stat-label">Protected access</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">Smart</span>
+          <span class="stat-label">Auto reporting</span>
+        </div>
+      </div>
+    </div>
+    <!-- Decorative circles -->
+    <div class="deco-circle deco-1"></div>
+    <div class="deco-circle deco-2"></div>
+    <div class="deco-circle deco-3"></div>
+  </div>
+
+  <!-- Right form panel -->
+  <div class="login-form-panel">
+    <div class="form-card">
+
+      <div class="form-header">
+        <h2>Welcome back</h2>
+        <p>Sign in to your account to continue</p>
+      </div>
+
+      <form [formGroup]="signinForm" (ngSubmit)="onSubmit(signinForm)" autocomplete="off">
+
+        <!-- Email -->
+        <div class="field-group">
+          <label class="field-label" for="email">Email address</label>
+          <div class="field-wrap" [class.field-error]="signinForm.get('email')?.invalid && signinForm.get('email')?.touched">
+            <span class="field-icon">
+              <span class="material-symbols-sharp">mail</span>
+            </span>
+            <input
+              id="email"
+              type="email"
+              class="field-input"
+              formControlName="email"
+              placeholder="you@company.com"
+              autocomplete="email"
+            />
+          </div>
+          <span class="error-msg" *ngIf="signinForm.get('email')?.invalid && signinForm.get('email')?.touched">
+            Please enter a valid email address
+          </span>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label class="field-label" for="password">Password</label>
+          <div class="field-wrap" [class.field-error]="signinForm.get('password')?.invalid && signinForm.get('password')?.touched">
+            <span class="field-icon">
+              <span class="material-symbols-sharp">lock</span>
+            </span>
+            <input
+              id="password"
+              [type]="hide ? 'password' : 'text'"
+              class="field-input"
+              formControlName="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+            <button type="button" class="toggle-pw" (click)="hide = !hide" [attr.aria-label]="hide ? 'Show password' : 'Hide password'">
+              <span class="material-symbols-sharp">{{ hide ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+          <span class="error-msg" *ngIf="signinForm.get('password')?.invalid && signinForm.get('password')?.touched">
+            Password is required
+          </span>
+        </div>
+
+        <!-- Error banner -->
+        <div class="error-banner" *ngIf="errorMessage">
+          <span class="material-symbols-sharp">error</span>
+          {{ errorMessage }}
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-signin" [disabled]="loading || signinForm.invalid">
+          <span *ngIf="!loading">Sign In</span>
+          <span *ngIf="loading" class="spinner-row">
+            <span class="spinner"></span>
+            Signing in…
+          </span>
+        </button>
+
+      </form>
+
+    
+
+    </div>
+  </div>
+
+</div>

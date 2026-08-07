@@ -1,0 +1,39 @@
+<!-- access denied for non admin -->
+<!--   
+  <div
+    class="container-fluid pt-4 px-4"
+    *ngIf="currentUserDetails?.role !== 'Admin'"
+  >
+    <div class="smato-page-card">
+      <div
+        class="smato-page-header"
+      ></div>
+      <div class="table-responsive">
+        <img src="../../assets/access denied.jpg" alt="" srcset="" />
+        <h1>You do not have permission to access this page.</h1>
+      </div>
+    </div>
+  </div> -->
+
+  <mat-stepper #stepper   style="width:100% !important;background-color: transparent !important;">
+   
+    
+    <mat-step >
+      
+      <ng-template matStepLabel>New Voucher</ng-template>
+      
+    <app-new-voucher></app-new-voucher>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Voucher List</ng-template>
+  <app-vouchers></app-vouchers>
+  </mat-step>
+    <mat-step *ngIf="currentUserDetails?.role == 'Admin'" >
+      <ng-template matStepLabel>New Raw Material Voucher</ng-template>
+     <app-new-material-voucher></app-new-material-voucher>
+    </mat-step>
+    <mat-step *ngIf="currentUserDetails?.role == 'Admin'" >
+      <ng-template matStepLabel> Raw Material Voucher List</ng-template>
+     <app-rawmateriallists></app-rawmateriallists>
+    </mat-step>
+  </mat-stepper>

@@ -1,0 +1,160 @@
+<div class="dashboard-page">
+
+  <!-- ═══════════════════════════════════
+       SKELETON LOADER — shown while loading
+       ═══════════════════════════════════ -->
+  <ng-container *ngIf="loading">
+
+    <!-- Header skeleton -->
+    <div class="skel-header">
+      <div class="skel skel-title"></div>
+      <div class="skel skel-subtitle"></div>
+    </div>
+
+    <!-- Stat cards skeleton -->
+    <div class="row g-3 mb-3">
+      <div class="col-12 col-sm-6 col-xl-3" *ngFor="let n of [1,2,3,4]">
+        <div class="skel-card">
+          <div class="skel skel-icon"></div>
+          <div class="skel-card-body">
+            <div class="skel skel-label"></div>
+            <div class="skel skel-value"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table skeleton -->
+    <div class="skel-table-card">
+      <div class="skel-table-header">
+        <div class="skel skel-table-title"></div>
+        <div class="skel skel-table-link"></div>
+      </div>
+      <div class="skel-table-body">
+        <!-- Column headers -->
+        <div class="skel-row skel-head-row">
+          <div class="skel skel-th" *ngFor="let n of [1,2,3,4,5]"></div>
+        </div>
+        <!-- Data rows -->
+        <div class="skel-row" *ngFor="let n of [1,2,3,4,5,6,7]">
+          <div class="skel skel-td" *ngFor="let m of [1,2,3,4,5]"></div>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <!-- ═══════════════════════════════════
+       REAL CONTENT — shown after load
+       ═══════════════════════════════════ -->
+  <ng-container *ngIf="!loading">
+
+    <!-- Page header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Dashboard</h1>
+        <p class="dashboard-subtitle" *ngIf="currentUserName">Welcome back, {{ currentUserName }}</p>
+      </div>
+    </div>
+
+    <!-- Stats row (Admin only) -->
+    <div class="row g-3 mb-3" *ngIf="currentUserDetails?.role === 'Admin'">
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card h-100">
+          <div class="stat-icon icon-blue">
+            <span class="material-symbols-sharp">show_chart</span>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Today's Sales</p>
+            <h3 class="stat-value">₦{{ totalsale | number }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card h-100">
+          <div class="stat-icon icon-teal">
+            <span class="material-symbols-sharp">group</span>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Today's Customers</p>
+            <h3 class="stat-value">{{ dayReceipt?.length ?? 0 }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card h-100">
+          <div class="stat-icon icon-orange">
+            <span class="material-symbols-sharp">trending_up</span>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Total Expenses</p>
+            <h3 class="stat-value">₦{{ totalExpenses | number }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card h-100">
+          <div class="stat-icon icon-primary">
+            <span class="material-symbols-sharp">pie_chart</span>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Revenue — {{ cumulativeRevenueForEachMonth?.currentMonth }}</p>
+            <h3 class="stat-value">
+              ₦{{ cumulativeRevenueForEachMonth?.cumulativeRevenueForCurrentMonth?.[0]?.cumulativeRevenue | number }}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recent Sales -->
+    <div class="row g-3">
+      <div class="col-12">
+        <div class="page-card">
+          <div class="page-card-header">
+            <h2 class="page-card-title">
+              <span class="material-symbols-sharp">receipt_long</span>
+              Recent Sales
+            </h2>
+            <a routerLink="/allreceipt" class="btn-link-blue">
+              View all <span class="material-symbols-sharp">arrow_forward</span>
+            </a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="smato-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Invoice ID</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th class="d-none d-md-table-cell">Account</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let sale of allReceipt">
+                  <td class="col-date">{{ sale.createdAt | date:'dd MMM yyyy, HH:mm' }}</td>
+                  <td><span class="receipt-badge">{{ sale.receiptId }}</span></td>
+                  <td class="col-customer">{{ sale.nameOfCustomer }}</td>
+                  <td><strong>₦{{ sale.totalAmount | number }}</strong></td>
+                  <td class="d-none d-md-table-cell">{{ sale.accountPaidInto }}</td>
+                </tr>
+                <tr *ngIf="!allReceipt?.length">
+                  <td colspan="5" class="table-empty">No recent sales found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

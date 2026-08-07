@@ -1,0 +1,266 @@
+
+    <!-- Navbar End -->
+
+    <!-- access denied for non admin -->
+
+    <!-- <div
+        class="container-fluid pt-4 px-4"
+        *ngIf="currentUserDetails?.role !== 'Admin'"
+      >
+        <div class="smato-page-card">
+          <div
+            class="smato-page-header"
+          ></div>
+          <div class="table-responsive">
+            <img src="../../assets/access denied.jpg" alt="" srcset="" />
+            <h1>You do not have permission to access this page.</h1>
+          </div>
+        </div>
+
+
+
+        
+      </div> -->
+
+    <div class="row g-4">
+      <!-- All product Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="smato-page-card">
+          <div class="smato-page-header">
+            <h1 class="smato-page-title">New Payroll</h1>
+           
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-xl-5">
+              <mat-form-field class="w-100">
+                <mat-label>Payment Option</mat-label>
+                <mat-select
+                  [(ngModel)]="selectedPaymentOption"
+                  name="costCenter"
+                >
+                  <mat-option
+                    *ngFor="let account of cashandbankaccounts"
+                    [value]="account._id"
+                    >{{ account.acct_no }} {{ account.title }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-3">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Staff</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="
+                    this.currentUserDetails?.fname +
+                    ' ' +
+                    this.currentUserDetails?.lname
+                  "
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-3">
+              <mat-form-field class="w-100">
+                <mat-label>Month</mat-label>
+                <mat-select [(ngModel)]="selectedMonth" name="costCenter">
+                  <mat-option *ngFor="let month of months" [value]="month">{{
+                    month
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+              <b style="font-size: 20px">Total: </b>
+              <span style="font-size: 20px"> ₦{{ this.totalPrice }}.00</span>
+            </div>
+            <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+              <b style="font-size: 20px">Amount in Words: </b>
+              <span style="font-size: 20px">
+                {{ amountToWords | transformfirstletter }} NAIRA ONLY
+              </span>
+            </div>
+
+            <div class="row mt-5">
+              <div class="col-10 col-md-11">
+                <div
+                  class="row mb-1 animated fadeInUp"
+                  *ngFor="
+                    let voucherDetails of payrollDetailsArray;
+                    let i = index
+                  "
+                >
+                  <div class="col-2 col-md-1 my-2" style="cursor: pointer">
+                    <button
+                      class="text-danger btn btn-light"
+                      (click)="deleteItem(i)"
+                      *ngIf="payrollDetailsArray.length != 1"
+                    >
+                      <span class="material-symbols-sharp"> close </span>
+                    </button>
+                  </div>
+                  <div class="col-5 col-md-4 p-1">
+                    <label for="">Name</label>
+                    <input
+                      type="text"
+                      name="voucher_item"
+                      placeholder="Name"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.name"
+                      maxlength="500"
+                    />
+                  </div>
+                  <div class="col-5 col-md-2 p-1">
+                    <label for="">Wages</label>
+                    <input
+                      type="number"
+                      name="voucher_item"
+                      placeholder="Wages"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.wages"
+                      maxlength="500"
+                      (ngModelChange)="calculateTotalPrice()"
+                    />
+                  </div>
+                  <div class="col-5 col-md-2 p-1 ms-2">
+                    <label for="">No Of Days</label>
+                    <input
+                      type="number"
+                      name="voucher_item"
+                      placeholder="No Of Days"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.noOfDays"
+                      maxlength="1000"
+                      (ngModelChange)="calculateTotalPrice()"
+                    />
+                  </div>
+                  <div class="col-5 col-md-2 p-1">
+                    <label for="">Bonus</label>
+                    <input
+                      type="number"
+                      name="voucher_item"
+                      placeholder="Bonus"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.bonus"
+                      maxlength="500"
+                      (ngModelChange)="calculateTotalPrice()"
+                    />
+                  </div>
+                  <div class="col-5 col-md-2 p-1">
+                    <label for="">Tax</label>
+                    <input
+                      type="number"
+                      name="voucher_item"
+                      placeholder="Tax"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.tax"
+                      maxlength="500"
+                      (ngModelChange)="calculateTotalPrice()"
+                    />
+                  </div>
+                
+                  <div class="col-4 col-md-3 p-1">
+                    <label for="">Monthly Deduction</label>
+                    <input
+                      type="number"
+                      name="quantity"
+                      placeholder="Monthly Deduction"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.monthlyDeduction"
+                      (ngModelChange)="calculateTotalPrice()"
+                    />
+                  </div>
+                  <div class="col-4 col-md-3 p-1">
+                    <label for="">Loan</label>
+                    <input
+                      type="number"
+                      name="unit_price"
+                      placeholder="Loan"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.loan"
+                      (ngModelChange)="calculateTotalPrice()"
+                    />
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <label for="">Salary Advance</label>
+                    <input
+                      type="number"
+                      name="unit_price"
+                      placeholder="Salary Advance"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.salaryAdvance"
+                      (ngModelChange)="calculateTotalPrice()"
+                    />
+                  </div>
+                  <div class="col-5 col-md-2 p-1">
+                    <label for="">Bank Name</label>
+                    <input
+                      type="text"
+                      name="voucher_item"
+                      placeholder="Name"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.bankname"
+                      maxlength="500"
+                    />
+                  </div>
+                  <div class="col-5 col-md-2 p-1">
+                    <label for="">Account Name</label>
+                    <input
+                      type="text"
+                      name="voucher_item"
+                      placeholder="Name"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.acct_name"
+                      maxlength="500"
+                    />
+                  </div>
+                  <div class="col-5 col-md-2 p-1">
+                    <label for="">Account Number</label>
+                    <input
+                      type="text"
+                      name="voucher_item"
+                      placeholder="Name"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.acct_no"
+                      maxlength="500"
+                    />
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <label for="">Total</label>
+                    <input
+                      type="number"
+                      name="total"
+                      placeholder="Total "
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.total"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 col-md-1 my-auto">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  title="Add Voucher Item"
+                  (click)="addItem()"
+                >
+                  <span class="material-symbols-sharp mt-1"> add </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+          <button
+            class="btn btn-primary"
+            (click)="createPayroll()"
+            [disabled]="selectedPaymentOption == '' || selectedMonth == ''"
+          >
+            Create Payroll
+          </button>
+        </div>
+      </div>
+    </div>
+ 

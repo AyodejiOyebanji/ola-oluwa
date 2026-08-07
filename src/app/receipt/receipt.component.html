@@ -1,0 +1,233 @@
+<div class="receipt-page">
+
+  <!-- Page header -->
+  <div class="receipt-header">
+    <div>
+      <h1 class="receipt-title">Receipt</h1>
+      <p class="receipt-subtitle">Add products and process a new sale</p>
+    </div>
+  </div>
+
+  <div class="row g-3">
+
+    <!-- Add item -->
+    <div class="col-12 col-lg-5">
+      <div class="receipt-card h-100">
+        <div class="receipt-card-header">
+          <span class="material-symbols-sharp card-icon">add_shopping_cart</span>
+          <h2 class="receipt-card-title">Add Item</h2>
+        </div>
+        <div class="receipt-card-body">
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Product</mat-label>
+            <mat-select
+              name="product"
+              (selectionChange)="onProductSelectionChange()"
+              [(ngModel)]="selectedProduct"
+            >
+              <!-- Search box inside the dropdown panel -->
+              <div class="select-search-wrap">
+                <span class="material-symbols-sharp select-search-icon">search</span>
+                <input
+                  class="select-search-input"
+                  type="text"
+                  placeholder="Search product..."
+                  [(ngModel)]="productSearch"
+                  (ngModelChange)="filterProducts()"
+                  (click)="$event.stopPropagation()"
+                  (keydown)="$event.stopPropagation()"
+                />
+              </div>
+              <mat-option
+                *ngFor="let product of filteredProducts"
+                [value]="product._id"
+              >
+                {{ product.productName }}
+              </mat-option>
+              <mat-option *ngIf="filteredProducts?.length === 0" disabled>
+                No products found
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="price-chip" *ngIf="selectedPrice">
+            <span class="material-symbols-sharp">payments</span>
+            ₦{{ selectedPrice | number }}:00
+          </div>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Quantity</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              [(ngModel)]="quantity"
+              (input)="quantityCheck()"
+            />
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            class="btn-add w-100"
+            type="button"
+            [disabled]="disableadd"
+            (click)="add()"
+          >
+            <span class="material-symbols-sharp">add</span>
+            Add to List
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Customer + items -->
+    <div class="col-12 col-lg-7">
+      <div class="row g-3">
+
+        <!-- Customer details -->
+        <div class="col-12">
+          <div class="receipt-card">
+            <div class="receipt-card-header">
+              <span class="material-symbols-sharp card-icon">person</span>
+              <h2 class="receipt-card-title">Customer Details</h2>
+            </div>
+            <div class="receipt-card-body">
+              <div class="row g-2">
+                <div class="col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Name of Customer</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="nameOfCustomer"
+                      (input)="checkInputs()"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-12 col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Address</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="address"
+                      (input)="checkInputs()"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-12">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Account</mat-label>
+                    <mat-select
+                      name="account"
+                      [(ngModel)]="selectedAccount"
+                      (selectionChange)="checkInputs()"
+                    >
+                      <!-- Search box inside the dropdown panel -->
+                      <div class="select-search-wrap">
+                        <span class="material-symbols-sharp select-search-icon">search</span>
+                        <input
+                          class="select-search-input"
+                          type="text"
+                          placeholder="Search account..."
+                          [(ngModel)]="accountSearch"
+                          (ngModelChange)="filterAccounts()"
+                          (click)="$event.stopPropagation()"
+                          (keydown)="$event.stopPropagation()"
+                        />
+                      </div>
+                      <mat-option
+                        *ngFor="let account of filteredAccounts"
+                        [value]="account._id"
+                      >
+                        {{ account.title }}
+                      </mat-option>
+                      <mat-option *ngIf="filteredAccounts?.length === 0" disabled>
+                        No accounts found
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Items list -->
+        <div class="col-12">
+          <div class="receipt-card">
+            <div class="receipt-card-header">
+              <span class="material-symbols-sharp card-icon">receipt_long</span>
+              <h2 class="receipt-card-title">List of Items</h2>
+              <span class="item-count" *ngIf="getAllReceipt?.length">
+                {{ getAllReceipt.length }} item{{ getAllReceipt.length > 1 ? 's' : '' }}
+              </span>
+            </div>
+
+            <div class="table-responsive" *ngIf="getAllReceipt?.length; else emptyCart">
+              <table class="smato-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of getAllReceipt; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td class="col-name">{{ product.productName }}</td>
+                    <td>{{ product.productQuantity }}</td>
+                    <td><strong>₦{{ product.totalPrice | number }}:00</strong></td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn-delete"
+                        (click)="deleteItem(i)"
+                        title="Remove item"
+                      >
+                        <span class="material-symbols-sharp">delete</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <ng-template #emptyCart>
+              <div class="empty-cart">
+                <span class="material-symbols-sharp">shopping_cart</span>
+                <p>No items added yet</p>
+                <span>Select a product and click "Add to List"</span>
+              </div>
+            </ng-template>
+
+            <div class="receipt-footer" *ngIf="getAllReceipt?.length">
+              <div class="total-row">
+                <span>Total</span>
+                <strong>₦{{ totalAmount | number }}:00</strong>
+              </div>
+              <button
+                mat-raised-button
+                color="primary"
+                class="btn-process w-100"
+                type="button"
+                (click)="process()"
+                [disabled]="disableProcess"
+              >
+                <span class="material-symbols-sharp">check_circle</span>
+                Process Receipt
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

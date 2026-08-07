@@ -1,0 +1,86 @@
+
+
+  
+    <!-- Navbar End -->
+    <div
+    class="container-fluid pt-4 px-4"
+    *ngIf="currentUserDetails?.role !== 'Admin'"
+  >
+    <div class="smato-page-card">
+      <div
+        class="smato-page-header"
+      ></div>
+      <div class="table-responsive">
+        <img src="../../assets/access denied.jpg" alt="" srcset="" />
+        <h1>You do not have permission to access this page.</h1>
+      </div>
+    </div>
+  </div> 
+    <div class="container-fluid pt-4 px-4" *ngIf="currentUserDetails?.role == 'Admin'">
+      <div class="row g-4">
+        <!-- All product Start -->
+        <div class="container-fluid pt-4 px-4">
+          <div class="bg-light rounded p-4">
+            <div class="smato-page-header">
+              <h1 class="smato-page-title">Product History</h1>
+              <input
+                type="text"
+                [(ngModel)]="searchQuery"
+                placeholder="Search..."
+                class="form-control smato-search"
+                (input)="search()"
+              />
+            </div>
+
+           
+
+            <div class="table-responsive">
+              <table
+                class="smato-table"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col"> Product Initial Quantity</th>
+                    <th scope="col">Quantity Added</th>
+                    <th scope="col"> Opening Stock</th>
+                    <th scope="col"> Closing Stock</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container
+                    *ngIf="allHistory.length > 0; else noHistory"
+                  >
+                    <tr *ngFor="let history of allHistory; let i = index">
+                      <td>{{ formatDate(history.createdAt)  }}</td>
+                      <td>{{ history.productName }}</td>
+                      <td>{{ history.productInitialQuantity }}</td>
+                      <td>{{ history.productAdded }}</td>
+                      <td>{{ history.totalRemaining}}</td>   
+                      <td>{{ history.closingStock}}</td>   
+                    </tr>
+                  </ng-container>
+                  <ng-template #noHistory>
+                    <tr>
+                      <td colspan="3" class="text-center">
+                        No history available
+                      </td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="smato-pagination">
+          <button (click)="fetchPreviousPage()" [disabled]="currentPage <= 1" class="btn btn-primary m-1">
+            Previous
+          </button>
+          <button (click)="fetchNextPage()" [disabled]="!hasNextPage" class="btn btn-primary m-1">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>

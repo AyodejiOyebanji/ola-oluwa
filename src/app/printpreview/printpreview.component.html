@@ -1,0 +1,131 @@
+<!-- SCREEN VIEW -->
+<div class="receipt-screen-wrapper" [class.thermal-mode]="companySettings.printerType === 'thermal'">
+  <div class="receipt-paper" [class.thermal-paper]="companySettings.printerType === 'thermal'">
+    
+    <!-- NORMAL PRINTER LAYOUT (A4 / Letter) -->
+    <ng-container *ngIf="companySettings.printerType === 'normal'">
+      <div class="receipt-normal">
+        <div class="receipt-header">
+          <img *ngIf="companySettings.logoUrl" [src]="companySettings.logoUrl" alt="Logo" class="receipt-logo">
+          <h1 class="receipt-company-name">{{ companySettings.companyName }}</h1>
+          <p class="receipt-address">{{ companySettings.address }}</p>
+          <p class="receipt-contact">Tel: {{ companySettings.phone }}</p>
+          <p class="receipt-contact">{{ companySettings.email }}</p>
+          <div class="receipt-divider"></div>
+        </div>
+
+        <div class="receipt-customer-info">
+          <div class="receipt-info-row">
+            <span class="receipt-label">Customer:</span>
+            <span class="receipt-value">{{ receiptDetails?.nameOfCustomer | uppercase }}</span>
+          </div>
+          <div class="receipt-info-row">
+            <span class="receipt-label">Address:</span>
+            <span class="receipt-value">{{ receiptDetails?.address | uppercase }}</span>
+          </div>
+          <div class="receipt-info-row">
+            <span class="receipt-label">Date:</span>
+            <span class="receipt-value">{{ receiptDetails?.date | date:'medium' }}</span>
+          </div>
+          <div class="receipt-info-row">
+            <span class="receipt-label">Receipt ID:</span>
+            <span class="receipt-value">{{ receiptDetails?.receiptId }}</span>
+          </div>
+        </div>
+
+        <table class="receipt-table">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of receiptDetails?.items; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="receipt-desc">{{ item.productName }}</td>
+              <td>{{ item.productQuantity }}</td>
+              <td>₦{{ item.productPrice | number:'1.2-2' }}</td>
+              <td class="receipt-total-col">₦{{ item.totalPrice | number:'1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="receipt-totals">
+          <div class="receipt-grand-total">
+            <span class="receipt-grand-label">TOTAL:</span>
+            <span class="receipt-grand-amount">₦{{ receiptDetails?.totalAmount | number:'1.2-2' }}</span>
+          </div>
+          <p class="receipt-amount-words">{{ amountInWords | transformfirstletter }} naira only</p>
+        </div>
+
+        <div class="receipt-footer">
+          <p class="receipt-footer-note">{{ companySettings.footerNote }}</p>
+          <p class="receipt-motto">{{ companySettings.motto }}</p>
+          <p class="receipt-thanks">Thank you for your patronage!</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- THERMAL PRINTER LAYOUT (80mm POS Receipt) -->
+    <ng-container *ngIf="companySettings.printerType === 'thermal'">
+      <div class="receipt-thermal">
+        <div class="thermal-header">
+          <h1 class="thermal-company-name">{{ companySettings.companyName }}</h1>
+          <p class="thermal-info">{{ companySettings.address }}</p>
+          <p class="thermal-info">Tel: {{ companySettings.phone }}</p>
+          <p class="thermal-info">{{ companySettings.email }}</p>
+          <div class="thermal-divider">========================================</div>
+        </div>
+
+        <div class="thermal-customer-info">
+          <p class="thermal-row"><strong>Customer:</strong> {{ receiptDetails?.nameOfCustomer | uppercase }}</p>
+          <p class="thermal-row"><strong>Address:</strong> {{ receiptDetails?.address | uppercase }}</p>
+          <p class="thermal-row"><strong>Date:</strong> {{ receiptDetails?.date | date:'short' }}</p>
+          <p class="thermal-row"><strong>Receipt:</strong> {{ receiptDetails?.receiptId }}</p>
+          <div class="thermal-divider">========================================</div>
+        </div>
+
+        <div class="thermal-items">
+          <div class="thermal-item" *ngFor="let item of receiptDetails?.items; let i = index">
+            <div class="thermal-item-header">
+              <span class="thermal-item-number">{{ i + 1 }}.</span>
+              <span class="thermal-item-name">{{ item.productName }}</span>
+            </div>
+            <div class="thermal-item-details">
+              <span>{{ item.productQuantity }} x ₦{{ item.productPrice | number:'1.2-2' }}</span>
+              <span class="thermal-item-total">₦{{ item.totalPrice | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="thermal-divider">========================================</div>
+
+        <div class="thermal-totals">
+          <div class="thermal-grand-total">
+            <span class="thermal-grand-label">TOTAL:</span>
+            <span class="thermal-grand-amount">₦{{ receiptDetails?.totalAmount | number:'1.2-2' }}</span>
+          </div>
+          <p class="thermal-words">{{ amountInWords | transformfirstletter }} naira only</p>
+        </div>
+
+        <div class="thermal-divider">========================================</div>
+
+        <div class="thermal-footer">
+          <p class="thermal-footer-note">{{ companySettings.footerNote }}</p>
+          <p class="thermal-motto">{{ companySettings.motto }}</p>
+          <p class="thermal-thanks">THANK YOU!</p>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+
+  <button class="print-button" (click)="printReceipt()">
+    <span class="material-symbols-sharp">print</span>
+    Print Receipt
+  </button>
+</div>

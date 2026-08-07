@@ -1,0 +1,247 @@
+<div class="cs-page">
+
+  <!-- Page Header -->
+  <div class="cs-page-header">
+    <div class="cs-page-header-text">
+      <h1 class="cs-title">Company Settings</h1>
+     
+    </div>
+    <div class="cs-header-actions">
+      <ng-container *ngIf="!editing; else editActions">
+        <button class="cs-btn cs-btn-primary" (click)="startEdit()">
+          <span class="material-symbols-sharp">edit</span>
+          Edit Settings
+        </button>
+      </ng-container>
+      <ng-template #editActions>
+        <button class="cs-btn cs-btn-ghost" (click)="cancelEdit()" [disabled]="saving">
+          <span class="material-symbols-sharp">close</span>
+          Cancel
+        </button>
+        <button class="cs-btn cs-btn-primary" (click)="save()" [disabled]="saving">
+          <span *ngIf="!saving" class="material-symbols-sharp">save</span>
+          <span *ngIf="saving" class="cs-spinner"></span>
+          {{ saving ? 'Saving…' : 'Save Changes' }}
+        </button>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="cs-layout">
+
+    <!-- LEFT: Form / view columns -->
+    <div class="cs-main">
+
+      <!-- Identity Section -->
+      <section class="cs-card">
+        <div class="cs-card-header">
+          <span class="cs-card-icon material-symbols-sharp">apartment</span>
+          <div>
+            <h2 class="cs-card-title">Company Identity</h2>
+            <p class="cs-card-desc">The name, short name and tagline shown in the sidebar and on the login screen.</p>
+          </div>
+        </div>
+        <div class="cs-card-body">
+          <div class="cs-field">
+            <label class="cs-label">Company Name</label>
+            <ng-container *ngIf="editing; else viewCompanyName">
+              <input class="cs-input" type="text" [(ngModel)]="draft.companyName"
+                placeholder="e.g. SMATO MANUFACTURING LIMITED" />
+            </ng-container>
+            <ng-template #viewCompanyName>
+              <p class="cs-value">{{ settings.companyName }}</p>
+            </ng-template>
+          </div>
+
+          <div class="cs-row">
+            <div class="cs-field">
+              <label class="cs-label">Short Name</label>
+              <ng-container *ngIf="editing; else viewShortName">
+                <input class="cs-input" type="text" [(ngModel)]="draft.shortName"
+                  placeholder="e.g. Smato" />
+              </ng-container>
+              <ng-template #viewShortName>
+                <p class="cs-value">{{ settings.shortName }}</p>
+              </ng-template>
+            </div>
+            <div class="cs-field">
+              <label class="cs-label">Tagline</label>
+              <ng-container *ngIf="editing; else viewTagline">
+                <input class="cs-input" type="text" [(ngModel)]="draft.tagline"
+                  placeholder="e.g. Manufacturing Ltd" />
+              </ng-container>
+              <ng-template #viewTagline>
+                <p class="cs-value">{{ settings.tagline }}</p>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="cs-field">
+            <label class="cs-label">Motto</label>
+            <ng-container *ngIf="editing; else viewMotto">
+              <input class="cs-input" type="text" [(ngModel)]="draft.motto"
+                placeholder="e.g. JESUS IS THE LORD" />
+            </ng-container>
+            <ng-template #viewMotto>
+              <p class="cs-value">{{ settings.motto }}</p>
+            </ng-template>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="cs-card">
+        <div class="cs-card-header">
+          <span class="cs-card-icon material-symbols-sharp">contacts</span>
+          <div>
+            <h2 class="cs-card-title">Contact Information</h2>
+            <p class="cs-card-desc">Shown on all printed receipts and documents.</p>
+          </div>
+        </div>
+        <div class="cs-card-body">
+          <div class="cs-field">
+            <label class="cs-label">Address</label>
+            <ng-container *ngIf="editing; else viewAddress">
+              <input class="cs-input" type="text" [(ngModel)]="draft.address"
+                placeholder="e.g. Plot 1-6 Abudaka, Gambari, Ogbomoso" />
+            </ng-container>
+            <ng-template #viewAddress>
+              <p class="cs-value">{{ settings.address }}</p>
+            </ng-template>
+          </div>
+
+          <div class="cs-row">
+            <div class="cs-field">
+              <label class="cs-label">Phone</label>
+              <ng-container *ngIf="editing; else viewPhone">
+                <input class="cs-input" type="text" [(ngModel)]="draft.phone"
+                  placeholder="e.g. 08081303202, 08167626228" />
+              </ng-container>
+              <ng-template #viewPhone>
+                <p class="cs-value">{{ settings.phone }}</p>
+              </ng-template>
+            </div>
+            <div class="cs-field">
+              <label class="cs-label">Email</label>
+              <ng-container *ngIf="editing; else viewEmail">
+                <input class="cs-input" type="email" [(ngModel)]="draft.email"
+                  placeholder="company@email.com" />
+              </ng-container>
+              <ng-template #viewEmail>
+                <p class="cs-value">{{ settings.email }}</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Receipt Section -->
+      <section class="cs-card">
+        <div class="cs-card-header">
+          <span class="cs-card-icon material-symbols-sharp">receipt_long</span>
+          <div>
+            <h2 class="cs-card-title">Receipt & Printing</h2>
+            <p class="cs-card-desc">Configure receipt printing and select your printer type.</p>
+          </div>
+        </div>
+        <div class="cs-card-body">
+          <div class="cs-field">
+            <label class="cs-label">Printer Type</label>
+            <ng-container *ngIf="editing; else viewPrinterType">
+              <div class="cs-radio-group">
+                <label class="cs-radio-label">
+                  <input type="radio" name="printerType" value="normal" [(ngModel)]="draft.printerType" />
+                  <span class="cs-radio-custom"></span>
+                  <div class="cs-radio-text">
+                    <span class="cs-radio-title">Normal Printer (A4 / Letter)</span>
+                    <span class="cs-radio-desc">For standard office printers — detailed layout with logo, bold text</span>
+                  </div>
+                </label>
+                <label class="cs-radio-label">
+                  <input type="radio" name="printerType" value="thermal" [(ngModel)]="draft.printerType" />
+                  <span class="cs-radio-custom"></span>
+                  <div class="cs-radio-text">
+                    <span class="cs-radio-title">Thermal / POS Receipt Printer</span>
+                    <span class="cs-radio-desc">For supermarket-style receipt printers — 80mm narrow format, bold text</span>
+                  </div>
+                </label>
+              </div>
+            </ng-container>
+            <ng-template #viewPrinterType>
+              <p class="cs-value">
+                <span *ngIf="settings.printerType === 'normal'">Normal Printer (A4 / Letter)</span>
+                <span *ngIf="settings.printerType === 'thermal'">Thermal / POS Receipt Printer (80mm)</span>
+              </p>
+            </ng-template>
+          </div>
+
+          <div class="cs-field">
+            <label class="cs-label">Footer Note</label>
+            <ng-container *ngIf="editing; else viewFooter">
+              <textarea class="cs-input cs-textarea" rows="3" [(ngModel)]="draft.footerNote"
+                placeholder="e.g. Customers are advised to cross check goods before leaving…"></textarea>
+            </ng-container>
+            <ng-template #viewFooter>
+              <p class="cs-value cs-value-muted">{{ settings.footerNote }}</p>
+            </ng-template>
+          </div>
+
+          <div class="cs-field">
+            <label class="cs-label">Logo URL</label>
+            <ng-container *ngIf="editing; else viewLogo">
+              <input class="cs-input" type="text" [(ngModel)]="draft.logoUrl"
+                placeholder="Path or URL to your company logo" />
+            </ng-container>
+            <ng-template #viewLogo>
+              <p class="cs-value cs-value-muted">{{ settings.logoUrl }}</p>
+            </ng-template>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT: Live preview card -->
+    <aside class="cs-sidebar">
+      <div class="cs-preview-card">
+        <div class="cs-preview-header">
+          <span class="material-symbols-sharp">visibility</span>
+          Live Preview
+        </div>
+
+        <!-- Sidebar brand preview -->
+        <div class="cs-preview-section">
+          <p class="cs-preview-label">Sidebar Brand</p>
+          <div class="cs-preview-brand">
+            <div class="cs-preview-logo">
+              {{ (editing ? draft.shortName : settings.shortName)?.charAt(0) | uppercase }}
+            </div>
+            <div class="cs-preview-brand-text">
+              <span class="cs-preview-name">{{ editing ? draft.shortName : settings.shortName }}</span>
+              <span class="cs-preview-tagline">{{ editing ? draft.tagline : settings.tagline }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-preview-divider"></div>
+
+        <!-- Receipt header preview -->
+        <div class="cs-preview-section">
+          <p class="cs-preview-label">Receipt Header</p>
+          <div class="cs-preview-receipt">
+            <p class="cs-preview-receipt-name">{{ editing ? draft.companyName : settings.companyName }}</p>
+            <p class="cs-preview-receipt-line">{{ editing ? draft.address : settings.address }}</p>
+            <p class="cs-preview-receipt-line">Tel: {{ editing ? draft.phone : settings.phone }}</p>
+            <p class="cs-preview-receipt-line">{{ editing ? draft.email : settings.email }}</p>
+            <p class="cs-preview-receipt-footer">{{ editing ? draft.footerNote : settings.footerNote }}</p>
+            <p class="cs-preview-receipt-motto">{{ editing ? draft.motto : settings.motto }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info box -->
+      
+    </aside>
+
+  </div>
+</div>

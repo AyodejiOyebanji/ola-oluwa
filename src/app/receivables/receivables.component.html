@@ -1,0 +1,198 @@
+<!-- access denied for non admin -->
+
+<!-- <div
+    class="container-fluid pt-4 px-4"
+    *ngIf="currentUserDetails?.role !== 'Admin'"
+  >
+    <div class="smato-page-card">
+      <div
+        class="smato-page-header"
+      ></div>
+      <div class="table-responsive">
+        <img src="../../assets/access denied.jpg" alt="" srcset="" />
+        <h1>You do not have permission to access this page.</h1>
+      </div>
+    </div>
+  </div> -->
+
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title">Receivables</h1>
+          <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          placeholder="Search..."
+          class="form-control smato-search"
+          (input)="search()"
+        />
+      </div>
+      <h2 style="font-weight: 700;" class="text-muted text-end">₦{{totalReceivable}}:00</h2>
+        <div
+        class="container-fluid pt-4 px-4 d-flex justify-content-center"
+        style="margin-top: 25vh"
+        *ngIf="loader"
+      >
+        <div
+          class="spinner-grow"
+          role="status"
+          style="width: 4rem; height: 4rem"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+        <div class="table-responsive mt-3" *ngIf="!loader">
+            <table
+              class="smato-table"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">S/N</th>
+                  <th scope="col">Name of Customer</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Remark</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngIf="receivables?.length; else noProducts"
+                >
+                  <tr  *ngFor="let receivable of receivables; let i = index">
+                    <td>  {{ i+1 }}</td>
+                    <td>{{receivable.customername}}</td>
+                    <td>₦{{receivable.expectedAmount}}:00</td>
+                    
+                    <td>
+                        {{ receivable.remark  }}
+                    </td>
+                    <td>  {{ receivable.createdAt | date : "medium" }}</td>
+
+                    <td>
+                      <a
+                        class="btn btn-sm btn-primary w-100"
+                        (click)="viewItem(receivable._id)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdropEdit"
+                        >View</a
+                      >
+                    </td>
+                    <td   *ngIf="currentUserDetails?.role == 'Admin'">
+                      <a
+                        class="btn btn-sm btn-danger w-100"
+                        (click)="deleteItem(receivable._id)"
+                        >Delete</a
+                      >
+                    </td>
+                  </tr>
+                </ng-container>
+
+                <ng-template #noProducts>
+                  <tr>
+                    <td colspan="7" class="table-empty">No Receivable Available.</td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+          </div>
+          <div class="smato-pagination">
+            <button (click)="fetchPreviousPage()" [disabled]="currentPage <= 1" class="btn btn-primary m-1">
+              Previous
+            </button>
+            <button (click)="fetchNextPage()" [disabled]="!hasNextPage" class="btn btn-primary m-1">
+              Next
+            </button>
+          </div>
+      
+       
+           
+      </div>
+    </div>
+  </div>
+  <button
+    class="circle-btn btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+  >
+    +
+  </button>
+<!-- Add Modal -->
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content smato-modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="staticBackdropLabel">
+            Create Receivables
+          </h2>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input
+            type="text"
+            placeholder="Customer Name"
+            class="form-control smato-search mt-2"
+            [(ngModel)]="customername"
+          />
+          <input
+            type="number"
+            placeholder="Expected Amount"
+            class="form-control smato-search mt-2"
+            [(ngModel)]="expectedAmount"
+          />
+
+          <textarea
+            name=""
+            placeholder="Short note"
+            id=""
+            cols="30"
+            rows="5"
+            class="form-control smato-search mt-2"
+            [(ngModel)]="short_note"
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            (click)="createReceivable()"
+            [disabled]="
+              this.customername == '' ||
+              this.expectedAmount == '' ||
+              this.short_note == ''
+            "
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- //edit -->
+</div>

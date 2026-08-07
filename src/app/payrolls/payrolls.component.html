@@ -1,0 +1,90 @@
+<!-- Content Start -->
+
+<!-- Navbar End -->
+
+<!-- access denied for non admin -->
+
+<!-- <div
+          class="container-fluid pt-4 px-4"
+          *ngIf="currentUserDetails?.role !== 'Admin'"
+        >
+          <div class="smato-page-card">
+            <div
+              class="smato-page-header"
+            ></div>
+            <div class="table-responsive">
+              <img src="../../assets/access denied.jpg" alt="" srcset="" />
+              <h1>You do not have permission to access this page.</h1>
+            </div>
+          </div>
+  
+  
+  
+          
+        </div> -->
+
+<div class="container">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title">Payroll List</h1>
+        </div>
+        <input
+          type="text"
+          class="form-control m-2 ms-auto"
+          style="width: 80%"
+          placeholder="Search "
+          (input)="search()"
+          [(ngModel)]="searchQuery"
+        />
+        <div class="table-responsive mt-3">
+          <table
+            class="smato-table"
+          >
+            <thead>
+              <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Month</th>
+                <th scope="col">Approved By</th>
+                <th scope="col">Total</th>
+
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="filteredPayroll?.length; else noProducts">
+                <tr *ngFor="let payroll of filteredPayroll; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    {{ payroll.month }} {{ payroll.createdAt | date : "yyyy" }}
+                  </td>
+                  <td>{{ payroll.preparedBy }}</td>
+                  <td>₦{{ payroll.total }}:00</td>
+
+                  <td>
+                    <a
+                      class="btn btn-sm btn-primary w-100"
+                      (click)="viewItem(payroll._id)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropEdit"
+                      >View</a
+                    >
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-template #noProducts>
+                <tr>
+                  <td colspan="7" class="table-empty">No Voucher found.</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

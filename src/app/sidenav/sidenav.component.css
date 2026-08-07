@@ -1,0 +1,386 @@
+/* ═══════════════════════════════════════════
+   SMATO SIDEBAR
+   Solid colors only — #191C24 bg, #009CFF accent
+═══════════════════════════════════════════ */
+:host {
+  --sw:    256px;
+  --sw-c:   68px;
+  --bg:    #191C24;
+  --bg2:   #14171e;
+  --blue:  #009CFF;
+  --blue-subtle: rgba(0, 156, 255, 0.12);
+  --border: rgba(255,255,255,0.07);
+  --text:   rgba(255,255,255,0.85);
+  --muted:  rgba(255,255,255,0.45);
+  display: block;
+}
+
+/* ── Shell ── */
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--sw);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  transition: width 0.22s ease;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+}
+
+.sidebar.collapsed { width: var(--sw-c); }
+
+/* ── Brand ── */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  height: 60px;
+  min-height: 60px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 8px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.18s;
+}
+
+.brand-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 0.59rem;
+  color: var(--muted);
+  white-space: nowrap;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.pin-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.pin-btn:hover {
+  background: var(--blue-subtle);
+  color: var(--blue);
+  border-color: rgba(0,156,255,0.3);
+}
+
+.pin-btn .material-symbols-sharp { font-size: 0.9rem; }
+
+/* Collapsed — hide labels */
+.sidebar.collapsed .brand-text,
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .nav-group-label,
+.sidebar.collapsed .user-meta {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sidebar.collapsed .pin-btn { margin-left: 0; }
+
+/* ── User strip ── */
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.02);
+}
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.18s;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 0.62rem;
+  color: var(--blue);
+  white-space: nowrap;
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+/* ── Nav ── */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.5rem 0 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.06) transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar        { width: 3px; }
+.sidebar-nav::-webkit-scrollbar-track  { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.06); border-radius: 3px; }
+
+.nav-group { margin-bottom: 0.15rem; }
+
+.nav-group-label {
+  font-size: 0.59rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.2);
+  padding: 0.65rem 1rem 0.2rem;
+  margin: 0;
+  white-space: nowrap;
+  transition: opacity 0.18s;
+}
+
+/* Nav link */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.52rem 0.75rem;
+  margin: 1px 0.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+  position: relative;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-item.active {
+  background: var(--blue-subtle);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* Active left bar */
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -0.5rem;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  background: var(--blue);
+  border-radius: 0 3px 3px 0;
+}
+
+.nav-item.active .nav-icon {
+  background: var(--blue-subtle);
+}
+
+/* Icon */
+.nav-icon {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.nav-item:hover .nav-icon { background: rgba(255,255,255,0.07); }
+.nav-icon .material-symbols-sharp { font-size: 1.1rem; }
+
+/* Collapsed state */
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 0.52rem;
+  margin: 1px 0.5rem;
+}
+
+.sidebar.collapsed .nav-item.active::before { display: none; }
+
+/* Tooltip on hover when collapsed */
+.sidebar.collapsed .nav-item:hover::before {
+  content: attr(title);
+  position: absolute;
+  left: calc(var(--sw-c) + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #191C24;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 200;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  height: auto;
+  width: auto;
+  background: #191C24;
+}
+
+/* ── Footer / logout ── */
+.sidebar-footer {
+  padding: 0.5rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.52rem 0.75rem;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  background: rgba(220,53,69,0.12);
+  color: #ff6b7a;
+}
+
+.logout-btn .nav-icon {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.logout-btn:hover .nav-icon { background: rgba(220,53,69,0.1); }
+.logout-btn .material-symbols-sharp { font-size: 1.1rem; }
+
+.sidebar.collapsed .logout-btn {
+  justify-content: center;
+  padding: 0.52rem;
+}
+
+/* ── Mobile backdrop ── */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.22s;
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: var(--sw) !important;
+    transition: transform 0.22s ease;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.35);
+  }
+
+  .sidebar.mobile-open { transform: translateX(0); }
+
+  .sidebar-backdrop { display: block; }
+  .sidebar-backdrop.visible { opacity: 1; }
+
+  /* Always show full labels on mobile */
+  .sidebar.collapsed .brand-text,
+  .sidebar.collapsed .nav-label,
+  .sidebar.collapsed .nav-group-label,
+  .sidebar.collapsed .user-meta {
+    opacity: 1; width: auto; overflow: visible; pointer-events: auto;
+  }
+
+  .sidebar.collapsed .nav-item {
+    justify-content: flex-start;
+    padding: 0.52rem 0.75rem;
+    margin: 1px 0.5rem;
+  }
+
+  .sidebar.collapsed .nav-item.active::before { display: block; }
+  .sidebar.collapsed .logout-btn { justify-content: flex-start; padding: 0.52rem 0.75rem; }
+  .sidebar.collapsed .pin-btn { margin-left: auto; }
+}

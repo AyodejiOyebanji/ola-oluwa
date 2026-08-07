@@ -1,0 +1,159 @@
+<div class="shell-wrap">
+
+  <!-- SIDEBAR — id used for direct DOM toggle on mobile -->
+  <aside id="smato-sidebar" class="shell-sidebar" [class.collapsed]="isCollapsed" [class.mobile-open]="mobileOpen">
+
+    <!-- Brand -->
+    <div class="sb-brand">
+      <div class="sb-logo">{{ companySettings.shortName?.charAt(0) | uppercase }}</div>
+      <div class="sb-brand-text">
+        <span class="sb-name">{{ companySettings.shortName }}</span>
+        <span class="sb-sub">{{ companySettings.tagline }}</span>
+      </div>
+      <button class="sb-pin" (click)="toggleCollapse()"
+              [title]="isCollapsed ? 'Expand' : 'Collapse'">
+        <span class="material-symbols-sharp">{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</span>
+      </button>
+    </div>
+
+    <!-- User -->
+    <!-- <div class="sb-user" *ngIf="currentUserName">
+      <div class="sb-avatar">{{ currentUserName?.charAt(0)?.toUpperCase() }}</div>
+      <div class="sb-user-info">
+        <span class="sb-uname">{{ currentUserName }}</span>
+        <span class="sb-urole">{{ currentUserRole }}</span>
+      </div>
+    </div> -->
+
+    <!-- Nav -->
+    <nav class="sb-nav">
+
+      <div class="sb-group">
+        <p class="sb-group-label">Main</p>
+        <a routerLink="/dashboard"   routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Dashboard">
+          <span class="sb-icon"><span class="material-symbols-sharp">dashboard</span></span>
+          <span class="sb-link-text">Dashboard</span>
+        </a>
+        <a routerLink="/receipt"     routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Receipt">
+          <span class="sb-icon"><span class="material-symbols-sharp">receipt</span></span>
+          <span class="sb-link-text">Receipt</span>
+        </a>
+        <a routerLink="/allreceipt"  routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="All Receipts">
+          <span class="sb-icon"><span class="material-symbols-sharp">receipt_long</span></span>
+          <span class="sb-link-text">All Receipts</span>
+        </a>
+        <a routerLink="/receivables" routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Receivables">
+          <span class="sb-icon"><span class="material-symbols-sharp">call_received</span></span>
+          <span class="sb-link-text">Receivables</span>
+        </a>
+        <a routerLink="/wallets"     routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Wallet">
+          <span class="sb-icon"><span class="material-symbols-sharp">wallet</span></span>
+          <span class="sb-link-text">Wallet</span>
+        </a>
+      </div>
+
+      <div class="sb-group">
+        <p class="sb-group-label">Management</p>
+        <a routerLink="/products"      routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Products">
+          <span class="sb-icon"><span class="material-symbols-sharp">inventory_2</span></span>
+          <span class="sb-link-text">Products</span>
+        </a>
+        <a routerLink="/inventory"     routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Inventory">
+          <span class="sb-icon"><span class="material-symbols-sharp">warehouse</span></span>
+          <span class="sb-link-text">Inventory</span>
+        </a>
+        <a routerLink="/history-setup" routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="History">
+          <span class="sb-icon"><span class="material-symbols-sharp">history</span></span>
+          <span class="sb-link-text">History</span>
+        </a>
+        <a routerLink="/payroll-setup" routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Payroll">
+          <span class="sb-icon"><span class="material-symbols-sharp">payments</span></span>
+          <span class="sb-link-text">Payroll</span>
+        </a>
+      </div>
+
+      <div class="sb-group">
+        <p class="sb-group-label">Finance</p>
+        <a routerLink="/voucher-set-up" routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Vouchers">
+          <span class="sb-icon"><span class="material-symbols-sharp">description</span></span>
+          <span class="sb-link-text">Vouchers</span>
+        </a>
+        <a routerLink="/statement"      routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Statements">
+          <span class="sb-icon"><span class="material-symbols-sharp">account_balance</span></span>
+          <span class="sb-link-text">Statements</span>
+        </a>
+      </div>
+
+      <div class="sb-group">
+        <p class="sb-group-label">Account</p>
+        <a routerLink="/set-up"          routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Set Up">
+          <span class="sb-icon"><span class="material-symbols-sharp">settings</span></span>
+          <span class="sb-link-text">Set Up</span>
+        </a>
+        <a routerLink="/profile"         routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Profile">
+          <span class="sb-icon"><span class="material-symbols-sharp">manage_accounts</span></span>
+          <span class="sb-link-text">Profile</span>
+        </a>
+        <a routerLink="/company-settings" routerLinkActive="active" class="sb-link" (click)="closeMobile()" title="Company Settings">
+          <span class="sb-icon"><span class="material-symbols-sharp">business</span></span>
+          <span class="sb-link-text">Company Settings</span>
+        </a>
+      </div>
+
+    </nav>
+
+    <!-- Logout -->
+    <div class="sb-footer">
+      <button class="sb-logout" (click)="logOut()">
+        <span class="sb-icon"><span class="material-symbols-sharp">logout</span></span>
+        <span class="sb-link-text">Log Out</span>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- Backdrop — id used for direct DOM toggle on mobile -->
+  <div id="smato-backdrop" class="shell-backdrop" [class.visible]="mobileOpen" (click)="closeMobile()"></div>
+
+  <!-- MAIN COLUMN -->
+  <div class="shell-main" [class.collapsed]="isCollapsed">
+
+    <!-- Top Navbar -->
+    <header class="tn-bar">
+      <div class="tn-left">
+        <!-- Mobile hamburger — direct DOM, no Angular binding needed -->
+        <button class="tn-btn tn-hamburger" (click)="openMobile()" aria-label="Open menu">
+          <span class="material-symbols-sharp">menu</span>
+        </button>
+        <!-- Desktop collapse toggle -->
+        <button class="tn-btn tn-desktop-toggle" (click)="toggleCollapse()" aria-label="Toggle sidebar">
+          <span class="material-symbols-sharp">menu</span>
+        </button>
+        <!-- Brand shown on mobile -->
+        <div class="tn-brand">
+          <span class="tn-brand-icon">{{ companySettings.shortName?.charAt(0) | uppercase }}</span>
+          <span class="tn-brand-name">{{ companySettings.companyName }}</span>
+        </div>
+      </div>
+
+      <div class="tn-right">
+        <!-- <button class="tn-btn" aria-label="Notifications">
+          <span class="material-symbols-sharp">notifications</span>
+        </button> -->
+        <div class="tn-user">
+          <div class="tn-avatar">{{ currentUserName?.charAt(0)?.toUpperCase() }}</div>
+          <div class="tn-user-info">
+            <span class="tn-uname">{{ currentUserName }}</span>
+            <span class="tn-urole">{{ currentUserRole }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="shell-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

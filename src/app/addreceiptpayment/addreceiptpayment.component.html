@@ -1,0 +1,100 @@
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+      <div class="mb-4">
+        <h1 class="mb-0">Add Payment</h1>
+        <div class="row">
+          <div class="col-md-6 col-12 mb-2">
+            <input type="text" class="form-control" [(ngModel)]="receiptId" placeholder="Enter the Receipt ID" />
+          </div>
+          <div class="col-md-4 col-12">
+            <button class="btn btn-primary btn-block"  (click)="search()">Search</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive mt-3" *ngIf="searchedResult">
+        <table
+          class="smato-table"
+        >
+          <thead>
+            <tr>
+          
+              <th scope="col">Name Of Customer</th>
+              <th scope="col">Receipt ID</th>
+              <th scope="col">Total</th>
+              <th scope="col">Date</th>
+              <th scope="col"  *ngIf=" searchedResult?.accountPaidInto_id==''">Action</th>
+            
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container >
+              <tr >
+               
+                <td>{{ searchedResult?.nameOfCustomer
+                }}</td>
+                <td>{{ searchedResult?.receiptId
+                }}</td>
+                <td>₦{{ searchedResult?.totalAmount
+                }}:00</td>
+                <td>{{ searchedResult?.date | date }}</td>
+
+                <td *ngIf=" searchedResult?.accountPaidInto_id==''">
+                  <a
+                    class="btn btn-sm btn-primary w-100"
+                   
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropUpdate"
+                   
+                    >View</a
+                  >
+                </td>
+              
+              </tr>
+            </ng-container>
+
+            
+          </tbody>
+        </table>
+      </div>
+      <!-- Modal -->
+<div class="modal fade" id="staticBackdropUpdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content smato-modal">
+        <div class="modal-header">
+            <h2 class="modal-title" id="staticBackdropLabel">Add Payment Details</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <label for="">Select Account</label>
+                <select
+                                class="form-select form-control"
+                                [(ngModel)]="selectedAccount"
+                               
+                              >
+                                <option selected disabled default>
+                                  Select Account
+                                </option>
+                                <option
+                                  *ngFor="let account of accounts"
+                                  [value]="account._id"
+                                >
+                                  {{ account.title }}
+                                </option>
+                              </select>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"    data-bs-dismiss="modal" (click)="addPayment(searchedResult?.totalAmount,searchedResult?.nameOfCustomer,searchedResult?.receiptId  )" [disabled]="selectedAccount==''">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+
+
+  

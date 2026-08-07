@@ -1,0 +1,211 @@
+<!-- access denied for non admin -->
+
+<div
+  class="container-fluid pt-4 px-4"
+  *ngIf="currentUserDetails?.role !== 'Admin'"
+>
+  <div class="smato-page-card">
+    <div
+      class="smato-page-header"
+    ></div>
+    <div class="table-responsive">
+      <img src="../../assets/access denied.jpg" alt="" srcset="" />
+      <h1>You do not have permission to access this page.</h1>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div
+      class="container-fluid pt-4 px-4"
+      *ngIf="currentUserDetails?.role === 'Admin'"
+    >
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title">Inventory</h1>
+          <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          placeholder="Search..."
+          class="form-control smato-search"
+          (input)="search()"
+        />
+
+
+        </div>
+        <div
+        class="container-fluid pt-4 px-4 d-flex justify-content-center"
+        style="margin-top: 25vh"
+        *ngIf="loader"
+      >
+        <div
+          class="spinner-grow"
+          role="status"
+          style="width: 4rem; height: 4rem"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+        <div class="table-responsive" *ngIf="!loader">
+          <table
+            class="smato-table"
+          >
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Item</th>
+                <th scope="col">Description</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Total</th>
+                <th scope="col">Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="inventoryList?.length; else noInventory">
+                <tr *ngFor="let inventory of inventoryList; let i = index">
+                  <td>{{ inventory.date | date:'dd-MM-yyyy' }}</td>
+                  <td>{{ inventory.item }}</td>
+                  <td>{{ inventory.description }}</td>
+                  <td>{{ inventory.quantity }}</td>
+                  <td>
+                    {{
+                      inventory.amount
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      inventory.total
+                    }}
+                  </td>
+
+                
+                  <td>
+                    <a
+                      class="btn btn-sm btn-danger w-100"
+                      (click)="deleteItem(i)"
+                      >Delete</a
+                    >
+                  </td> 
+                </tr>
+              </ng-container>
+
+              <ng-template #noInventory>
+                <tr>
+                  <td colspan="7" class="table-empty">No Inventory found.</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+        <div class="smato-pagination">
+          <button (click)="fetchPreviousPage()" [disabled]="currentPage <= 1" class="btn btn-primary m-1">
+            Previous
+          </button>
+          <button (click)="fetchNextPage()" [disabled]="!hasNextPage" class="btn btn-primary m-1">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    class="circle-btn btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+  >
+    +
+  </button>
+<!-- Add Modal -->
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content smato-modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="staticBackdropLabel">Add Inventory</h2>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <input
+          type="date"
+          placeholder="Date"
+          class="form-control smato-search mt-2"
+          [(ngModel)]="date"
+        />
+          <input
+            type="text"
+            placeholder="Item"
+            class="form-control smato-search mt-2"
+            [(ngModel)]="item"
+          />
+          <input
+            type="text"
+            placeholder="Description"
+            class="form-control smato-search mt-2"
+            [(ngModel)]="description"
+          />
+          <input
+            type="number"
+            placeholder="Quantity"
+            class="form-control smato-search mt-2"
+            [(ngModel)]="quantity"
+          />
+        
+          <input
+          type="number"
+          placeholder="Amount"
+          class="form-control smato-search mt-2"
+          [(ngModel)]="amount"
+        />
+          <div class="mt-2">
+            <div class="alert alert-primary">
+              <h2>Total: #{{amount *quantity}}</h2>
+            </div>
+
+          </div>
+          
+       
+      
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            (click)="createInvt()"
+            [disabled]=" this.item == '' ||
+            this.description == '' ||
+            this.quantity == '' || this.amount==''||
+            this.date == '' "
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- //edit -->
+</div>

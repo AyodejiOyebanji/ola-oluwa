@@ -1,0 +1,145 @@
+<!-- Content Start -->
+
+  <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+      <!-- All product Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded p-4">
+          <div
+            class="d-flex align-items-center justify-content-between mb-4"
+          ></div>
+
+          <div class="table-responsive staff">
+            <h1>Profile</h1>
+            <div class="alert alert-success">
+              <h3>ID:{{ currentUserDetails?.smato_id }}</h3>
+            </div>
+            <div class="alert alert-success">
+              <h3>Role: {{ currentUserDetails?.role }}</h3>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+                <mat-label>Firstname</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [value]="currentUserDetails?.fname"
+                  [disabled]="inputDisabled"
+                  [(ngModel)]="editfname"
+                />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+                <mat-label>Lastname</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [value]="currentUserDetails?.lname"
+                  [disabled]="inputDisabled"
+                  [(ngModel)]="editlname"
+                />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  [value]="currentUserDetails?.email"
+                  [disabled]="inputDisabled"
+                  [(ngModel)]="editemail"
+                />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+                <mat-label>Phone Number</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  [value]="currentUserDetails?.phone"
+                  [disabled]="inputDisabled"
+                  [(ngModel)]="editphone"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  [value]="currentUserDetails?.password"
+                  [disabled]="inputDisabled"
+                  [(ngModel)]="editpassword"
+                />
+              </mat-form-field>
+            </div>
+
+
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-md-12 col-lg-4">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Account Name</mat-label>
+                      <input matInput type="text" [value]="currentUserDetails?.acct_name"
+                      [disabled]="inputDisabled"
+                      [(ngModel)]="editacct_name"
+                      
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 col-lg-4">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Account Number</mat-label>
+                      <input matInput type="number" [value]="currentUserDetails?.acct_no"  [disabled]="inputDisabled"
+                      [(ngModel)]="editacct_no">
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 col-lg-4">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Bank Name</mat-label>
+                      <input matInput type="text" [value]="currentUserDetails?.bankname"  [disabled]="inputDisabled"
+                      [(ngModel)]="editbankname">
+                    </mat-form-field>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <div class="d-flex justify-content-end">
+              <ng-container *ngIf="!editing; else saveBtn">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  (click)="edit()"
+                >
+                  Edit
+                </button>
+              </ng-container>
+              <ng-template #saveBtn>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  (click)="save()"
+                >
+                  Save
+                </button>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

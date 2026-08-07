@@ -1,0 +1,140 @@
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title">All Sales</h1>
+          <input type="text" [(ngModel)]="searchQuery" placeholder="Search..." class="form-control smato-search"
+            (input)="search()" />
+        </div>
+        <div class="container-fluid pt-4 px-4 d-flex justify-content-center" style="margin-top: 25vh"
+          *ngIf="loader">
+          <div class="spinner-grow" role="status" style="width: 4rem; height: 4rem">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div class="table-responsive" *ngIf="!loader">
+          <table class="smato-table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Invoice id</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Amount</th>
+
+                <th scope="col">Account Used</th>
+                <th scope="col">Print</th>
+                <th scope="col" *ngIf="currentUserDetails?.role==='Admin'">Delete</th>
+                <th scope="col" *ngIf="currentUserDetails?.role==='Admin'">Edit Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sale of allReceipt; let i = index">
+                <td>
+                  {{
+                  sale.day
+
+                  }}
+                </td>
+                <td>
+                  {{ sale.receiptId }}
+                </td>
+                <td>
+                  {{sale.nameOfCustomer }}
+                </td>
+                <td>
+                  ₦{{sale.totalAmount }}:00
+                </td>
+                <td>
+                  {{sale. accountPaidInto }}
+                </td>
+
+
+                <td>
+                  <a class="btn btn-sm btn-outline-primary w-100" (click)="print(i)">Print</a>
+                </td>
+                <td>
+                  <a class="btn btn-sm btn-outline-primary w-100" (click)="editDate(i)" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropEdit">Edit Date</a>
+                </td>
+                <td *ngIf="currentUserDetails?.role=='Admin'"><a class="btn btn-sm btn-outline-danger w-100"
+                    (click)="deleteReceipt(i)">Delete</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="smato-pagination">
+          <button (click)="fetchPreviousPage()" [disabled]="currentPage <= 1" class="btn btn-primary m-1">
+            Previous
+          </button>
+          <button (click)="fetchNextPage()" [disabled]="!hasNextPage" class="btn btn-primary m-1">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <button class="circle-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <span class="material-symbols-sharp">
+        download
+      </span>
+    </button>
+
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content smato-modal">
+          <div class="modal-header">
+            <h2 class="modal-title" id="staticBackdropLabel">Download Sales </h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="">Start Date</label>
+            <input type="date" class="form-control smato-search mt-3" [(ngModel)]="start_date">
+            <label for="">End Date</label>
+            <input type="date" class="form-control smato-search mt-3" [(ngModel)]="end_date">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="download()" data-bs-dismiss="modal"
+              [disabled]="start_date=='' || end_date==''">
+              Download Pdf
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="staticBackdropEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content smato-modal">
+          <div class="modal-header">
+            <h2 class="modal-title" id="staticBackdropLabel">
+              Edit Date
+            </h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="">Date</label>
+            <input type="date" class="form-control smato-search mt-3" [(ngModel)]="enditedDate">
+
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="updateDate()" data-bs-dismiss="modal">
+              Update date
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

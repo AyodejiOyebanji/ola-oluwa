@@ -1,0 +1,184 @@
+<!-- access denied for non admin -->
+
+<div class="container-fluid pt-4 px-4" *ngIf="currentUserDetails?.role !== 'Admin'">
+  <div class="smato-page-card">
+    <div class="smato-page-header"></div>
+    <div class="table-responsive">
+      <img src="../../assets/access denied.jpg" alt="" srcset="" />
+      <h1>You do not have permission to access this page.</h1>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid pt-4 px-4" *ngIf="currentUserDetails?.role == 'Admin'">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title">All Products</h1>
+          <input type="text" [(ngModel)]="searchQuery" placeholder="Search..." class="form-control smato-search"
+            (input)="search()" />
+        </div>
+        <div class="container-fluid pt-4 px-4 d-flex justify-content-center" style="margin-top: 25vh"
+          *ngIf="loader">
+          <div class="spinner-grow" role="status" style="width: 4rem; height: 4rem">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div class="table-responsive mt-3" *ngIf="!loader">
+          <table class="smato-table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Name of Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+                <th scope="col">Action</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="allProducts?.length; else noProducts">
+                <tr *ngFor="let product of allProducts; let i = index">
+                  <td>{{ product.date | date : "dd-MM-yyyy" }}</td>
+                  <td>{{ product.productName }}</td>
+                  <td>₦{{ product.productPrice }}:00</td>
+                  <td>{{ product.productQuantity }}</td>
+                  <td>
+                    {{
+                    product.productQuantity > 0
+                    ? "Available"
+                    : "Unavailable"
+                    }}
+                  </td>
+
+                  <td>
+                    <a class="btn btn-sm btn-primary w-100" (click)="editItem(i)" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropEdit">Edit</a>
+                  </td>
+                  <td>
+                    <a class="btn btn-sm btn-danger w-100" (click)="deleteItem(i)">Delete</a>
+                  </td>
+                  <td>
+                    <a class="btn btn-sm btn-success w-100" (click)="addMoreProduct(product)" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropAddMore">Add</a>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-template #noProducts>
+                <tr>
+                  <td colspan="7" class="table-empty">No products found.</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+        <div class="smato-pagination">
+          <button (click)="fetchPreviousPage()" [disabled]="currentPage <= 1" class="btn btn-primary m-1">
+            Previous
+          </button>
+          <button (click)="fetchNextPage()" [disabled]="!hasNextPage" class="btn btn-primary m-1">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="circle-btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    +
+  </button>
+<!-- Add Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content smato-modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="staticBackdropLabel">Add Product</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" placeholder="Product Name" class="form-control smato-search mt-2" [(ngModel)]="pName" />
+          <input type="number" placeholder="Price" class="form-control smato-search mt-2" [(ngModel)]="price" />
+          <input type="number" placeholder="Quantity" class="form-control smato-search mt-2" [(ngModel)]="quantity" />
+          <input type="date" placeholder="Date" class="form-control smato-search mt-2" [(ngModel)]="date" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="addProduct()" data-bs-dismiss="modal">
+            Add Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- //edit -->
+
+  <div class="modal fade" id="staticBackdropEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content smato-modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="staticBackdropLabel">
+            Edit {{ editedIndex?.productName }}
+          </h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" placeholder="Product Name" class="form-control smato-search mt-2" [(ngModel)]="pName"
+            [value]="editedIndex?.productName" />
+          <input type="number" placeholder="Price" class="form-control smato-search mt-2" [(ngModel)]="price"
+            [value]="editedIndex?.productPrice" />
+          <input type="number" placeholder="Quantity" class="form-control smato-search mt-2" [(ngModel)]="quantity"
+            [value]="editedIndex?.productQuantity" />
+          <input type="date" placeholder="Date" class="form-control smato-search mt-2" [(ngModel)]="date"
+            [value]="editedIndex?.date" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="saveProduct()" data-bs-dismiss="modal">
+            Save Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- add More product -->
+  <div>
+    <div class="modal fade" id="staticBackdropAddMore" data-bs-backdrop="static" data-bs-keyboard="false"
+      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content smato-modal">
+          <div class="modal-header">
+            <h2 class="modal-title" id="staticBackdropLabel">
+              Add More Product
+            </h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="number" placeholder="Add More" class="form-control smato-search mt-2" [(ngModel)]="MoreProduct" />
+
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" (click)="AddMoreToProduct()" data-bs-dismiss="modal">
+              Add More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

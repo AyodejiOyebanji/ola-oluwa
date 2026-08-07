@@ -1,0 +1,342 @@
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="bg-light rounded p-4">
+        <div class="mb-4">
+          <h1>Raw Material Voucher</h1>
+          <div class="row">
+            <div class="col-sm-12 col-xl-6">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Cost Center</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="
+                    voucherData?.cost_center_id?.acct_no +
+                    ' ' +
+                    voucherData?.cost_center_id?.title
+                  "
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-3">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Staff</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="this.voucherData?.Staff"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-2">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Remark</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="this.voucherData?.remark"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Date</mat-label>
+                <input
+                  matInput
+                  disabled
+                  [value]="this.voucherData?.date | date"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Voucher Summary</mat-label>
+                <textarea
+                  matInput
+                  disabled
+                  [value]="this.voucherData?.vouchersummary"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-4">
+              <mat-form-field class="example-full-width w-100">
+                <mat-label>Payment Details</mat-label>
+                <textarea
+                  matInput
+                  [value]="this.voucherData?.paymentdetails"
+                  disabled
+                  placeholder="Where should the payment be sent to?"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+              <b style="font-size: 20px">Total: </b>
+              <span style="font-size: 20px">
+                ₦{{ voucherData?.total }} .00</span
+              >
+            </div>
+            <div class="col-sm-12 col-xl-12 d-flex justify-content-center">
+              <b style="font-size: 20px">Amount in Words: </b>
+              <span style="font-size: 20px"
+                >{{ amountToWords | transformfirstletter }} NAIRA ONLY
+              </span>
+            </div>
+
+            <div class="row mt-5">
+              <div class="col-10 col-md-11">
+                <div class="row">
+                  <div class="col-1"></div>
+                  <div class="col-2">Voucher Item</div>
+                  <div class="col-3">Description</div>
+                  <div class="col-2">Quantity</div>
+                  <div class="col-2">Unit Price</div>
+                  <div class="col-2">Total Price</div>
+                </div>
+                <div
+                  class="row mb-1 animated fadeInUp"
+                  *ngFor="
+                    let voucherDetails of voucherData?.voucheritem;
+                    let i = index
+                  "
+                >
+                  <div
+                    class="col-2 col-md-1 my-2"
+                    style="cursor: pointer"
+                  ></div>
+                  <div class="col-5 col-md-2 p-1">
+                    <input
+                      type="text"
+                      name="voucher_item"
+                      placeholder="Item"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.item"
+                      disabled
+                      maxlength="500"
+                    />
+                  </div>
+                  <div class="col-5 col-md-3 p-1">
+                    <input
+                      type="text"
+                      name="voucher_item"
+                      placeholder="Description"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.description"
+                      maxlength="1000"
+                      disabled
+                    />
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <input
+                      type="number"
+                      name="quantity"
+                      placeholder="Quantity"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.quantity"
+                      disabled
+                    />
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <input
+                      type="number"
+                      name="unit_price"
+                      placeholder="Unit Price"
+                      class="form-control w-100"
+                      [(ngModel)]="voucherDetails.unit_price"
+                      disabled
+                    />
+                  </div>
+                  <div class="col-4 col-md-2 p-1">
+                    <input
+                      type="number"
+                      name="total"
+                      placeholder="Total Price"
+                      class="form-control w-100"
+                      disabled
+                      [(ngModel)]="voucherData.total"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-12 col-xl-4 mt-3 ms-5">
+                  <div
+                    *ngIf="
+                      voucherData?.remark === 'Awaiting Approval';
+                      else makePaymentButton
+                    "
+                  >
+                    <button
+                      class="btn btn-primary"
+                      (click)="approveBtn(voucherData._id)"
+                    >
+                      Approve
+                    </button>
+                  </div>
+                  <ng-template #makePaymentButton>
+                    <div
+                      *ngIf="
+                        voucherData?.remark !== 'Fully Paid';
+                        else fullyPaidButton
+                      "
+                    >
+                      <button
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                      >
+                        Make Payment
+                      </button>
+                    </div>
+                    <ng-template #fullyPaidButton>
+                      <button
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                      >
+                        View Payment
+                      </button>
+                    </ng-template>
+                  </ng-template>
+                </div>
+              </div>
+              <div
+                class="modal fade"
+                id="staticBackdrop"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                  <div class="modal-content smato-modal">
+                    <div class="modal-header">
+                      <h2 class="modal-title" id="staticBackdropLabel">
+                        Payment Method
+                      </h2>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <select
+                        class="form-select"
+                        [(ngModel)]="selectedAccount"
+                        (change)="onAccountChange()"
+                      >
+                        <option selected disabled default>
+                          Select Account
+                        </option>
+                        <option
+                          *ngFor="let account of accounts"
+                          [value]="account._id"
+                        >
+                          {{ account.title }}
+                        </option>
+                      </select>
+                      <p class="mt-4">
+                        Amount Available: ₦
+                        <span class="font-weight:700"
+                          >{{ availableAmount }}:00</span
+                        >
+                      </p>
+                      <mat-form-field class="example-full-width w-100 mt-2">
+                        <mat-label>Amount</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          [(ngModel)]="amountPaid"
+                          (input)="checkAmountInputedChange()"
+                        />
+                      </mat-form-field>
+                      <h4 class="mt-4">
+                        Due (Amount to be paid for Voucher): ₦{{
+                          voucherData?.total
+                        }}
+                        :00 ({{ amountToWords | transformfirstletter }}
+                        NAIRA ONLY)
+                      </h4>
+                      <h4>
+                        Amount Paid: ₦{{ totalMoneyPaid }}:00 ({{
+                          totalMoneyPaidInword | transformfirstletter
+                        }}
+                        NAIRA ONLY)
+                      </h4>
+                      <h4>
+                        Unpaid Amount: ₦{{
+                          voucherData?.total - totalMoneyPaid
+                        }}:00
+                      </h4>
+                      <input type="checkbox"  [(ngModel)]="isChecked" (change)="onCheckboxChange()">
+                      <div class="table-responsive mt-3" *ngIf="isChecked">
+                        <table
+                          class="smato-table"
+                        >
+                          <thead>
+                            <tr>
+                              <th scope="col">S/N</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">Amount Paid</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container
+                              *ngIf="paymentMade?.length; else noProducts"
+                            >
+                              <tr
+                                *ngFor="
+                                  let payment of paymentMade;
+                                  let i = index
+                                "
+                              >
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ payment.createdAt | date }}</td>
+                                <td>₦{{ payment.amount }} :00</td>
+                              </tr>
+                            </ng-container>
+
+                            <ng-template #noProducts>
+                              <tr>
+                                <td colspan="7" class="table-empty">No Payment found.</td>
+                              </tr>
+                            </ng-template>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="makePayment(voucherData._id)"
+                        data-bs-dismiss="modal"
+                        [disabled]="
+                          selectedAccount == 'Select Account' ||
+                          amountPaid == '' ||
+                          disableBtn == true
+                        "
+                        *ngIf="voucherData?.remark !== 'Fully Paid'"
+                      >
+                        Make Payment
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

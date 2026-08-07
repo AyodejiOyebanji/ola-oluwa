@@ -1,0 +1,134 @@
+<div class="container">
+  <div class="row g-4">
+    <!-- All product Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="smato-page-card">
+        <div class="smato-page-header">
+          <h1 class="smato-page-title">Voucher List</h1>
+        </div>
+        <input
+          type="text"
+          class="form-control m-2 ms-auto"
+          style="width: 80%"
+          placeholder="Search "
+          (input)="search()"
+          [(ngModel)]="searchQuery"
+        />
+        <div class="table-responsive mt-3">
+          <table
+            class="smato-table"
+          >
+            <thead>
+              <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Voucher Summary</th>
+                <th scope="col">Created By</th>
+                <th scope="col">Total</th>
+                <th scope="col">Remark</th>
+                <th scope="col">Action</th>
+                <!-- <th scope="col">Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="filteredVouchers?.length; else noProducts">
+                <tr *ngFor="let voucher of filteredVouchers; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ voucher.vouchersummary }}</td>
+                  <td>{{ voucher.Staff }}</td>
+                  <td>₦{{ voucher.total }}:00</td>
+                  <td>{{ voucher.remark }}</td>
+
+                  <td>
+                    <a
+                      class="btn btn-sm btn-primary w-100"
+                      (click)="viewItem(voucher._id)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropEdit"
+                      >View</a
+                    >
+                  </td>
+                  <!-- <td>
+                        <a
+                          class="btn btn-sm btn-danger w-100"
+                          (click)="deleteItem(voucher._id)"
+                          >Delete</a
+                        >
+                      </td> -->
+                </tr>
+              </ng-container>
+
+              <ng-template #noProducts>
+                <tr>
+                  <td colspan="7" class="table-empty">No Voucher found.</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <button
+        class="circle-btn btn btn-primary"
+        data-bs-tggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        <span class="material-symbols-sharp"> download </span>
+      </button>
+    </div>
+
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content smato-modal">
+          <div class="modal-header">
+            <h2 class="modal-title" id="staticBackdropLabel">Download Sales</h2>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label for="">Start Date</label>
+            <input
+              type="date"
+              class="form-control smato-search mt-3"
+              [(ngModel)]="start_date"
+            />
+            <label for="">End Date</label>
+            <input
+              type="date"
+              class="form-control smato-search mt-3"
+              [(ngModel)]="end_date"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="download()"
+              data-bs-dismiss="modal"
+              [disabled]="start_date == '' || end_date == ''"
+            >
+              Download Pdf
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

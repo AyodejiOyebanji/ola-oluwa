@@ -1,0 +1,70 @@
+{
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-stable",
+      "version": 1,
+      "urls": [
+        "/api/product/fetchallProducts",
+        "/api/account/getaccounts",
+        "/api/account/getExpensesAccount",
+        "/api/account/getBankAccountsAndCash",
+        "/api/account/getRawMaterialAccount",
+        "/api/account_type/getaccounts",
+        "/api/user/getallStaffs"
+      ],
+      "cacheConfig": {
+        "maxSize": 20,
+        "maxAge": "5m",
+        "timeout": "5s",
+        "strategy": "freshness"
+      }
+    },
+    {
+      "name": "api-dynamic",
+      "version": 1,
+      "urls": [
+        "/api/receipt/**",
+        "/api/inventory/**",
+        "/api/receivables/**",
+        "/api/voucher/**",
+        "/api/payroll/**",
+        "/api/history/**",
+        "/api/wallet/**",
+        "/api/paymentlogs/**"
+      ],
+      "cacheConfig": {
+        "maxSize": 50,
+        "maxAge": "1m",
+        "timeout": "3s",
+        "strategy": "freshness"
+      }
+    }
+  ]
+}

@@ -1,0 +1,526 @@
+/* ─── Page shell ─────────────────────────────────────── */
+.cs-page {
+  padding: 2rem 2.25rem;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── Page header ────────────────────────────────────── */
+.cs-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.cs-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin: 0 0 0.3rem;
+  letter-spacing: -0.3px;
+}
+
+.cs-subtitle {
+  font-size: 0.88rem;
+  color: #6b7280;
+  margin: 0;
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.cs-header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* ─── Buttons ────────────────────────────────────────── */
+.cs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.18s, transform 0.14s, box-shadow 0.18s;
+  white-space: nowrap;
+}
+
+.cs-btn .material-symbols-sharp {
+  font-size: 1rem;
+}
+
+.cs-btn-primary {
+  background: #1a237e;
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(26, 35, 126, 0.3);
+}
+
+.cs-btn-primary:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(26, 35, 126, 0.38);
+}
+
+.cs-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.cs-btn-ghost {
+  background: #fff;
+  color: #374151;
+  border: 1.5px solid #e5e7eb;
+}
+
+.cs-btn-ghost:hover:not(:disabled) {
+  background: #f3f4f8;
+  border-color: #d1d5db;
+}
+
+.cs-btn-ghost:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Spinner inside button ──────────────────────────── */
+.cs-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cs-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes cs-spin { to { transform: rotate(360deg); } }
+
+/* ─── Two-column layout ──────────────────────────────── */
+.cs-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+/* ─── Cards ──────────────────────────────────────────── */
+.cs-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cs-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid #e9ebf0;
+  box-shadow: 0 2px 12px rgba(26, 35, 126, 0.05);
+  overflow: hidden;
+}
+
+.cs-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1.5px solid #f0f1f5;
+  background: #fafbff;
+}
+
+.cs-card-icon {
+  font-size: 1.35rem;
+  color: #3949ab;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.cs-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.1px;
+}
+
+.cs-card-desc {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cs-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* ─── Field rows ─────────────────────────────────────── */
+.cs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.cs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cs-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: 0.2px;
+}
+
+/* ─── Inputs ─────────────────────────────────────────── */
+.cs-input {
+  width: 100%;
+  padding: 0.68rem 0.9rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  color: #111827;
+  background: #f8f9fc;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  box-sizing: border-box;
+}
+
+.cs-input:focus {
+  border-color: #3949ab;
+  box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.11);
+  background: #fff;
+}
+
+.cs-input::placeholder { color: #c4c9d4; }
+
+.cs-textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.55;
+}
+
+/* ─── Read-only values ───────────────────────────────── */
+.cs-value {
+  font-size: 0.92rem;
+  color: #111827;
+  margin: 0;
+  padding: 0.55rem 0;
+  border-bottom: 1.5px dashed #e9ebf0;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.cs-value-muted {
+  color: #6b7280;
+  font-weight: 400;
+  font-size: 0.87rem;
+}
+
+/* ─── Radio buttons ──────────────────────────────────── */
+.cs-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.cs-radio-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  background: #fafbff;
+}
+
+.cs-radio-label:hover {
+  border-color: #3949ab;
+  background: #fff;
+}
+
+.cs-radio-label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cs-radio-custom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.cs-radio-label input[type="radio"]:checked ~ .cs-radio-custom {
+  border-color: #3949ab;
+  background: #3949ab;
+}
+
+.cs-radio-label input[type="radio"]:checked ~ .cs-radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.cs-radio-label input[type="radio"]:checked ~ .cs-radio-text .cs-radio-title {
+  color: #1a237e;
+  font-weight: 700;
+}
+
+.cs-radio-label input[type="radio"]:checked {
+  border-color: #3949ab;
+  box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.11);
+}
+
+.cs-radio-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.cs-radio-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  transition: color 0.2s;
+}
+
+.cs-radio-desc {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+/* ─── Sidebar ────────────────────────────────────────── */
+.cs-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: sticky;
+  top: 1.5rem;
+}
+
+/* ─── Preview card ───────────────────────────────────── */
+.cs-preview-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid #e9ebf0;
+  box-shadow: 0 2px 12px rgba(26, 35, 126, 0.05);
+  overflow: hidden;
+}
+
+.cs-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.25rem;
+  background: linear-gradient(135deg, #1a237e, #3949ab);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.cs-preview-header .material-symbols-sharp {
+  font-size: 1rem;
+}
+
+.cs-preview-section {
+  padding: 1.1rem 1.25rem;
+}
+
+.cs-preview-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #9ca3af;
+  margin: 0 0 0.7rem;
+}
+
+.cs-preview-divider {
+  height: 1.5px;
+  background: #f0f1f5;
+  margin: 0 1.25rem;
+}
+
+/* Sidebar brand mockup */
+.cs-preview-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #1a237e;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+}
+
+.cs-preview-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+}
+
+.cs-preview-brand-text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cs-preview-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-preview-tagline {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* Receipt header mockup */
+.cs-preview-receipt {
+  background: #fafbff;
+  border: 1.5px solid #e9ebf0;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  text-align: center;
+}
+
+.cs-preview-receipt-name {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #1a237e;
+  margin: 0 0 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  word-break: break-word;
+}
+
+.cs-preview-receipt-line {
+  font-size: 0.71rem;
+  color: #374151;
+  margin: 0 0 0.15rem;
+  word-break: break-word;
+}
+
+.cs-preview-receipt-footer {
+  font-size: 0.67rem;
+  color: #9ca3af;
+  margin: 0.5rem 0 0.25rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.cs-preview-receipt-motto {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #3949ab;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* ─── Info box ───────────────────────────────────────── */
+.cs-info-box {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  font-size: 0.82rem;
+  color: #1e40af;
+  line-height: 1.55;
+}
+
+.cs-info-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.cs-info-box p { margin: 0; }
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 960px) {
+  .cs-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-sidebar {
+    position: static;
+    /* Show preview after the form on smaller screens */
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .cs-page {
+    padding: 1.25rem 1rem;
+  }
+
+  .cs-page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cs-header-actions {
+    justify-content: flex-end;
+  }
+
+  .cs-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-card-body {
+    padding: 1.1rem;
+  }
+}
