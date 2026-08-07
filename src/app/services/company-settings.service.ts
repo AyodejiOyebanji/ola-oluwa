@@ -18,16 +18,16 @@ export interface CompanySettings {
 }
 
 const DEFAULT_SETTINGS: CompanySettings = {
-  companyName: 'SMATO MANUFACTURING LIMITED',
-  shortName: 'Smato',
-  tagline: 'Manufacturing Ltd',
-  address: 'Plot 1-6 Abudaka,Gambari, Ogbomoso',
-  phone: '08081303202, 08167626228',
-  email: 'Smatomanufacturing@yahoo.com',
+  companyName: '',
+  shortName: '',
+  tagline: '',
+  address: '',
+  phone: '',
+  email: '',
   footerNote:
-    'Customers are advised to cross check their goods properly before leaving. No refund of money after payment. Thanks.',
-  motto: 'JESUS IS THE LORD',
-  logoUrl: '../../assets/smatologo-removebg-preview.png',
+    '',
+  motto: '',
+  logoUrl: '',
   printerType: 'normal',
 };
 
