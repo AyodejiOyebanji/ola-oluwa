@@ -336,7 +336,7 @@
     background: #fff;
     padding: 1.5rem 1.25rem;
     align-items: flex-start;
-    padding-top: 3rem;
+    padding-top: 0; /* top bar handles top spacing */
   }
 
   .form-card {
@@ -348,11 +348,19 @@
   .form-header h2 {
     font-size: 1.4rem;
   }
+}
 
-  /* Show a small top bar brand on mobile */
-  .login-wrapper::before {
-    content: 'SMATO';
-    display: block;
+/* ─── Mobile top bar — dynamic name via Angular ──────── */
+/* Only shown on small screens; the left brand panel shows on desktop */
+.mobile-topbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -363,9 +371,12 @@
     font-size: 1rem;
     font-weight: 800;
     letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 100;
+    gap: 0.5rem;
+  }
+
+  /* Push form content below the fixed top bar */
+  .login-form-panel {
+    padding-top: 68px;
   }
 }
